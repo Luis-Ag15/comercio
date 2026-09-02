@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- Sidebar de filtros -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header fw-bold">Filtrar Productos</div>
+                <div class="card-body">
+                    <form method="get">
+                        <!-- Búsqueda -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Buscar</label>
+                            <input type="text" name="search" class="form-control" placeholder="Buscar productos..." value="{{ current_search }}">
+                        </div>
+
+                        <!-- Categorías -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Categorías</label>
+                            {% for cat in categories %}
+                            <div class="form-check">
+                                <a href="{% url 'products:category_detail' cat.slug %}" class="text-decoration-none {% if category.slug == cat.slug %}fw-bold text-primary{% endif %}">
+                                    {{ cat.name }}
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Marcas -->
+                        {% if brands %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Marca</label>
+                            <select name="brand" class="form-select">
+                                <option value="">Todas</option>
+                                {% for brand in brands %}
+                                <option value="{{ brand.slug }}" {% if current_brand == brand.slug %}selected{% endif %}>
+                                    {{ brand.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        <!-- Precio -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Precio</label>
+                            <div class="row g-1">
+                                <div class="col">
+                                    <input type="number" name="min_price" class="form-control" placeholder="Min" value="{{ current_min_price }}">
+                                </div>
+                                <div class="col">
+                                    <input type="number" name="max_price" class="form-control" placeholder="Max" value="{{ current_max_price }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ordenar -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ordenar por</label>
+                            <select name="sort" class="form-select">
+                                <option value="">Más recientes</option>
+                                <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Precio: menor a mayor</option>
+                                <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Precio: mayor a menor</option>
+                                <option value="popular" {% if current_sort == 'popular' %}selected{% endif %}>Más populares</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Aplicar</button>
+                            <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary">Limpiar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de productos -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="h4 mb-0">{{ page_title }}</h1>
+                <small class="text-muted">{{ page_obj.paginator.count }} producto(s)</small>
+            </div>
+
+            <div class="row g-4">
+                {% for product in products %}
+                <div class="col-sm-6 col-xl-4">
+                    <div class="card h-100 shadow-sm product-card">
+                        <div class="position-relative">
+                            {% if product.is_on_sale %}
+                            <span class="badge bg-danger position-absolute top-0 start-0 m-2">Oferta</span>
+                            {% endif %}
+                            {% if product.is_new %}
+                            <span class="badge bg-success position-absolute top-0 end-0 m-2">Nuevo</span>
+                            {% endif %}
+                            {% if product.main_image %}
+                            <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}"
+                                 style="height: 200px; object-fit: cover;">
+                            {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-image text-muted fs-1"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text small text-muted">
+                                {{ product.short_description|default:product.description|striptags|truncatechars:80 }}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    {% if product.discount_price %}
+                                    <span class="text-muted text-decoration-line-through small">${{ product.price }}</span>
+                                    <span class="text-danger fw-bold">${{ product.discount_price }}</span>
+                                    {% else %}
+                                    <span class="fw-bold">${{ product.price }}</span>
+                                    {% endif %}
+                                </div>
+                                {% if not product.is_in_stock %}
+                                <span class="badge bg-secondary">Agotado</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-grid gap-1">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-sm">Ver Detalle</a>
+                                {% if product.is_in_stock %}
+                                <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-success btn-sm w-100">
+                                        <i class="bi bi-cart-plus"></i> Agregar al carrito
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-search fs-1 text-muted"></i>
+                        <p class="mt-3 text-muted">No se encontraron productos.</p>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-outline-primary">Ver todos los productos</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Paginación -->
+            {% if page_obj.has_other_pages %}
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">
+                            &laquo;
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">
+                            {{ num }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">
+                            &raquo;
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

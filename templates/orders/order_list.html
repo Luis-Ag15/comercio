@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mis Pedidos - {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .orders-hero {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);
+    padding: 1.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .orders-hero::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(16,185,129,0.15);
+    filter: blur(60px);
+  }
+  .orders-hero h1 { color:#fff; font-weight:800; font-size:1.5rem; margin:0; }
+  .orders-hero p  { color:rgba(255,255,255,0.7); font-size:0.85rem; margin:0; }
+  .stat-pill {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:50px; padding:0.45rem 1.1rem;
+    color:#fff; font-size:0.85rem; font-weight:600;
+    backdrop-filter:blur(10px);
+  }
+  .order-card {
+    background:#fff; border-radius:14px;
+    border:1px solid #e5e7eb; padding:1.5rem;
+    margin-bottom:1rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+    transition:all 0.25s ease;
+    position:relative; overflow:hidden;
+    animation:fadeInUp 0.35s ease both;
+  }
+  .order-card:hover {
+    transform:translateY(-2px);
+    box-shadow:0 12px 30px rgba(99,102,241,0.1);
+    border-color:#c7d2fe;
+  }
+  .order-card::before {
+    content:''; position:absolute;
+    left:0; top:0; bottom:0; width:5px;
+    border-radius:4px 0 0 4px;
+  }
+  .order-card.status-pending::before    { background:#f59e0b; }
+  .order-card.status-processing::before { background:#06b6d4; }
+  .order-card.status-shipped::before    { background:#6366f1; }
+  .order-card.status-delivered::before  { background:#10b981; }
+  .order-card.status-cancelled::before  { background:#ef4444; }
+
+  .order-id   { font-size:1.1rem; font-weight:700; color:#1e1b4b; }
+  .order-date { font-size:0.82rem; color:#6b7280; }
+  .order-total { font-size:1.35rem; font-weight:800; color:#065f46; }
+
+  .status-badge {
+    display:inline-flex; align-items:center; gap:0.35rem;
+    border-radius:50px; padding:0.3rem 0.8rem;
+    font-size:0.78rem; font-weight:600; letter-spacing:0.2px;
+  }
+  .status-badge .dot { width:7px; height:7px; border-radius:50%; }
+
+  .badge-pending    { background:#fef3c7; color:#92400e; }
+  .badge-processing { background:#cffafe; color:#0e7490; }
+  .badge-shipped    { background:#e0e7ff; color:#4338ca; }
+  .badge-delivered  { background:#d1fae5; color:#065f46; }
+  .badge-cancelled  { background:#fee2e2; color:#991b1b; }
+  .badge-paid       { background:#d1fae5; color:#065f46; }
+  .badge-pay-pending{ background:#fef3c7; color:#92400e; }
+  .badge-pay-failed { background:#fee2e2; color:#991b1b; }
+  .badge-refunded   { background:#f3f4f6; color:#6b7280; }
+
+  .dot-pending    { background:#f59e0b; }
+  .dot-processing { background:#06b6d4; }
+  .dot-shipped    { background:#6366f1; }
+  .dot-delivered  { background:#10b981; }
+  .dot-cancelled  { background:#ef4444; }
+
+  .order-items-count {
+    font-size:0.82rem; color:#4b5563; font-weight:500;
+    background:#f3f4f6; padding:0.25rem 0.65rem; border-radius:6px;
+  }
+  .btn-view-order {
+    background:linear-gradient(135deg,#10b981,#059669);
+    color:#fff; border:none; border-radius:8px;
+    padding:0.55rem 1.25rem; font-size:0.85rem; font-weight:600;
+    transition:all 0.25s; text-decoration:none;
+    display:inline-flex; align-items:center; gap:0.4rem;
+    box-shadow:0 4px 12px rgba(16,185,129,0.25);
+  }
+  .btn-view-order:hover {
+    transform:translateX(2px);
+    box-shadow:0 6px 18px rgba(16,185,129,0.35);
+    color:#fff;
+  }
+  .empty-state {
+    text-align:center; padding:5rem 2rem;
+    background:#fff; border-radius:16px;
+    border:2px dashed #e5e7eb;
+  }
+  .empty-state-icon {
+    width:90px; height:90px;
+    background:linear-gradient(135deg,#d1fae5,#a7f3d0);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 1.25rem;
+    font-size:2.4rem; color:#047857;
+  }
+  .filter-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.75rem; }
+  .filter-tab {
+    padding:0.45rem 1.1rem; border-radius:50px;
+    border:1.5px solid #e5e7eb; background:#fff;
+    color:#6b7280; font-size:0.82rem; font-weight:600;
+    cursor:pointer; transition:all 0.2s; text-decoration:none;
+  }
+  .filter-tab:hover {
+    border-color:#a7f3d0; color:#065f46;
+  }
+  .filter-tab.active {
+    background:#059669; border-color:#059669; color:#fff;
+    box-shadow:0 3px 10px rgba(5,150,105,0.25);
+  }
+  .tracking-chip {
+    display:inline-flex; align-items:center; gap:0.3rem;
+    background:#f0fdf4; color:#15803d; border-radius:6px;
+    padding:0.25rem 0.65rem; font-size:0.75rem; font-weight:600;
+    border:1px solid #bbf7d0;
+  }
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(12px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .order-card:nth-child(1){animation-delay:0.04s}
+  .order-card:nth-child(2){animation-delay:0.08s}
+  .order-card:nth-child(3){animation-delay:0.12s}
+  .order-card:nth-child(4){animation-delay:0.16s}
+  .order-card:nth-child(5){animation-delay:0.20s}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="orders-hero">
+  <div class="container-fluid px-4" style="position:relative;z-index:2">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h1 class="mb-1"><i class="bi bi-bag-check-fill me-2" style="color:#6ee7b7"></i>Mis Pedidos</h1>
+        <p class="mb-0">Consulta el estado y detalle de todos tus pedidos.</p>
+      </div>
+      {% if orders %}
+      <div class="stat-pill">
+        <i class="bi bi-stack"></i>
+        {{ orders|length }} pedido{{ orders|length|pluralize }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<div class="container-fluid px-4 py-4">
+  {% if orders %}
+  <!-- Filtros -->
+  <div class="filter-tabs">
+    <a href="#" class="filter-tab active" data-filter="all">Todos</a>
+    <a href="#" class="filter-tab" data-filter="pending">Pendiente</a>
+    <a href="#" class="filter-tab" data-filter="processing">En proceso</a>
+    <a href="#" class="filter-tab" data-filter="shipped">Enviado</a>
+    <a href="#" class="filter-tab" data-filter="delivered">Entregado</a>
+    <a href="#" class="filter-tab" data-filter="cancelled">Cancelado</a>
+  </div>
+
+  <div id="orders-container">
+    {% for order in orders %}
+    <div class="order-card status-{{ order.status }}" data-status="{{ order.status }}">
+      <div class="d-flex align-items-start justify-content-between flex-wrap gap-3">
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="order-id">Pedido #{{ order.id }}</span>
+
+            {% if order.status == 'pending' %}
+            <span class="status-badge badge-pending"><span class="dot dot-pending"></span>Pendiente</span>
+            {% elif order.status == 'processing' %}
+            <span class="status-badge badge-processing"><span class="dot dot-processing"></span>En proceso</span>
+            {% elif order.status == 'shipped' %}
+            <span class="status-badge badge-shipped"><span class="dot dot-shipped"></span>Enviado</span>
+            {% elif order.status == 'delivered' %}
+            <span class="status-badge badge-delivered"><span class="dot dot-delivered"></span>Entregado</span>
+            {% else %}
+            <span class="status-badge badge-cancelled"><span class="dot dot-cancelled"></span>Cancelado</span>
+            {% endif %}
+
+            {% if order.payment_status == 'paid' %}
+            <span class="status-badge badge-paid"><i class="bi bi-shield-check" style="font-size:0.8rem"></i>Pagado</span>
+            {% elif order.payment_status == 'pending' %}
+            <span class="status-badge badge-pay-pending"><i class="bi bi-clock" style="font-size:0.8rem"></i>Pago pendiente</span>
+            {% elif order.payment_status == 'failed' %}
+            <span class="status-badge badge-pay-failed"><i class="bi bi-x-circle" style="font-size:0.8rem"></i>Pago fallido</span>
+            {% else %}
+            <span class="status-badge badge-refunded"><i class="bi bi-arrow-counterclockwise" style="font-size:0.8rem"></i>Reembolsado</span>
+            {% endif %}
+          </div>
+
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <span class="order-date"><i class="bi bi-calendar3 me-1"></i>{{ order.created_at|date:"d/m/Y H:i" }}</span>
+            <span class="order-items-count"><i class="bi bi-box-seam me-1"></i>{{ order.get_items_count }} artículo{{ order.get_items_count|pluralize }}</span>
+            <span class="order-date"><i class="bi bi-credit-card me-1"></i>{{ order.get_payment_method_display }}</span>
+            {% if order.tracking_number %}
+            <span class="tracking-chip"><i class="bi bi-truck"></i>{{ order.tracking_number }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="d-flex flex-column align-items-end gap-2">
+          <div class="order-total">${{ order.total }}</div>
+          <a href="{% url 'orders:order_detail' order.id %}" class="btn-view-order">
+            Ver detalle <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon"><i class="bi bi-bag-x"></i></div>
+    <h3 class="fw-bold mb-2" style="color:#1e1b4b">Aún no tienes pedidos</h3>
+    <p class="text-muted mb-4">Explora nuestro catálogo y realiza tu primera compra.</p>
+    <a href="{% url 'products:product_list' %}" class="btn btn-primary px-4 py-2 fw-semibold rounded-pill">
+      <i class="bi bi-grid me-2"></i>Ver catálogo
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const tabs = document.querySelectorAll('.filter-tab');
+  const cards = document.querySelectorAll('.order-card');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function (e) {
+      e.preventDefault();
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      const filter = this.dataset.filter;
+      cards.forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.status === filter) ? 'block' : 'none';
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

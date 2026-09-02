@@ -1,0 +1,70 @@
+<footer class="footer-minimal">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 mb-4">
+                <h6 class="text-white">{{ site_name }}</h6>
+                <p class="text-muted pe-lg-4" style="line-height: 1.7;">
+                    Vajilla y suministros desechables esenciales con diseño contemporáneo y funcional. Vasos, platos, cubiertos y empaques para eventos, cafeterías y catering.
+                </p>
+                <div class="footer-social-minimal mt-3">
+                    {% if site_settings.instagram %}
+                    <a href="{{ site_settings.instagram }}" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    {% endif %}
+                    {% if site_settings.facebook %}
+                    <a href="{{ site_settings.facebook }}" target="_blank" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    {% endif %}
+                    {% if site_settings.twitter %}
+                    <a href="{{ site_settings.twitter }}" target="_blank" title="X / Twitter">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    {% endif %}
+                    <a href="#" title="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            
+            <div class="col-6 col-lg-2 mb-4">
+                <h6>Navegación</h6>
+                <a href="{% url 'core:home' %}" class="footer-minimal-link">Inicio</a>
+                <a href="{% url 'products:product_list' %}" class="footer-minimal-link">Catálogo General</a>
+                <a href="{% url 'core:about' %}" class="footer-minimal-link">Sobre Nosotros</a>
+                <a href="{% url 'core:contact' %}" class="footer-minimal-link">Contacto</a>
+            </div>
+
+            <div class="col-6 col-lg-3 mb-4">
+                <h6>Atención</h6>
+                <a href="{% url 'core:contact' %}" class="footer-minimal-link">Venta por Mayoreo</a>
+                <a href="#" class="footer-minimal-link">Fichas de Materiales</a>
+                <a href="#" class="footer-minimal-link">Política de Envíos</a>
+                <a href="#" class="footer-minimal-link">Preguntas Frecuentes</a>
+            </div>
+            
+            <div class="col-lg-3 mb-4">
+                <h6>Contacto</h6>
+                <p class="mb-2 text-muted">
+                    <i class="bi bi-envelope me-2"></i> {{ site_settings.email|default:"concierge@mitienda.com" }}
+                </p>
+                <p class="mb-2 text-muted">
+                    <i class="bi bi-telephone me-2"></i> {{ site_settings.phone|default:"+52 (55) 1234-5678" }}
+                </p>
+                <p class="mb-0 text-muted">
+                    <i class="bi bi-geo-alt me-2"></i> {{ site_settings.address|default:"Ciudad de México, México" }}
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom-minimal">
+            <div>
+                &copy; {{ now|date:"Y" }} {{ site_name }}. Todos los derechos reservados.
+            </div>
+            <div class="d-flex gap-4">
+                <a href="{% url 'core:privacy' %}" class="text-muted">Privacidad</a>
+                <a href="{% url 'core:terms' %}" class="text-muted">Términos</a>
+                <a href="#" class="text-muted">Accesibilidad</a>
+            </div>
+        </div>
+    </div>
+</footer>

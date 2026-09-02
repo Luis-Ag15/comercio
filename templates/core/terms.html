@@ -1,0 +1,374 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Términos y Condiciones — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="about-shell">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="about-header mb-5 pb-3 border-bottom text-center">
+            <h1 class="about-header-title">Términos y Condiciones</h1>
+            <p class="about-header-subtitle mb-0">
+                Última actualización: {% now "j \d\e F \d\e Y" %}. Al usar esta plataforma aceptas los presentes términos.
+            </p>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <!-- Índice lateral -->
+            <div class="col-lg-3 d-none d-lg-block" style="position: sticky; top: 100px; align-self: flex-start;">
+                <div class="about-pillar-card p-4">
+                    <div class="contact-info-tag mb-3">Contenido</div>
+                    <nav class="d-flex flex-column gap-2">
+                        <a href="#sec-1" class="text-muted small text-decoration-none legal-nav-link">1. Aceptación</a>
+                        <a href="#sec-2" class="text-muted small text-decoration-none legal-nav-link">2. Definiciones</a>
+                        <a href="#sec-3" class="text-muted small text-decoration-none legal-nav-link">3. Registro y cuenta</a>
+                        <a href="#sec-4" class="text-muted small text-decoration-none legal-nav-link">4. Productos y precios</a>
+                        <a href="#sec-5" class="text-muted small text-decoration-none legal-nav-link">5. Pedidos y pagos</a>
+                        <a href="#sec-6" class="text-muted small text-decoration-none legal-nav-link">6. Envíos y entrega</a>
+                        <a href="#sec-7" class="text-muted small text-decoration-none legal-nav-link">7. Devoluciones</a>
+                        <a href="#sec-8" class="text-muted small text-decoration-none legal-nav-link">8. Reseñas</a>
+                        <a href="#sec-9" class="text-muted small text-decoration-none legal-nav-link">9. Descuentos</a>
+                        <a href="#sec-10" class="text-muted small text-decoration-none legal-nav-link">10. Propiedad intelectual</a>
+                        <a href="#sec-11" class="text-muted small text-decoration-none legal-nav-link">11. Responsabilidad</a>
+                        <a href="#sec-12" class="text-muted small text-decoration-none legal-nav-link">12. Modificaciones</a>
+                        <a href="#sec-13" class="text-muted small text-decoration-none legal-nav-link">13. Legislación aplicable</a>
+                        <a href="#sec-14" class="text-muted small text-decoration-none legal-nav-link">14. Contacto</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="col-lg-9">
+
+                <!-- 1. Aceptación -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-1">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-check2-circle"></i> 1. Aceptación de los Términos
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Los presentes Términos y Condiciones (<strong>"Términos"</strong>) rigen el acceso y uso de la tienda en línea operada por <strong>{{ site_name }}</strong> (<strong>"la Empresa"</strong>, <strong>"nosotros"</strong>), incluyendo todas sus páginas, funciones y servicios asociados.
+                    </p>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Al navegar, registrarte, realizar una compra o de cualquier otra forma utilizar esta plataforma, declaras haber leído, comprendido y aceptado de manera libre e informada estos Términos. Si no estás de acuerdo con alguna disposición, debes abstenerte de usar el sitio.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        El uso de la plataforma está sujeto también a nuestra <a href="{% url 'core:privacy' %}" class="text-dark fw-semibold">Política de Privacidad</a>, la cual forma parte integral de estos Términos.
+                    </p>
+                </div>
+
+                <!-- 2. Definiciones -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="sec-2">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-journal-text"></i> 2. Definiciones
+                    </div>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Usuario / Cliente:</strong> toda persona física o moral que accede, navega o realiza transacciones en la plataforma.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Plataforma:</strong> el sitio web, aplicaciones y API ofrecidos por la Empresa.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Productos:</strong> menaje, consumibles gastronómicos, empaques y artículos desechables ofertados en el catálogo.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Pedido:</strong> solicitud formal de compra de uno o más Productos generada por el Usuario.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-0 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Cuenta:</strong> perfil personal creado por el Usuario para acceder a funcionalidades adicionales de la Plataforma.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. Registro y cuenta -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-3">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-person-check"></i> 3. Registro y Cuenta de Usuario
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Para realizar compras y acceder a funcionalidades avanzadas, el Usuario podrá crear una Cuenta proporcionando un correo electrónico válido, nombre, apellido y contraseña. El Usuario se compromete a:
+                    </p>
+                    <ul class="list-unstyled mb-3">
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>Proporcionar información veraz, completa y actualizada.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>Mantener la confidencialidad de su contraseña y notificarnos ante cualquier uso no autorizado.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>No ceder ni transferir su Cuenta a terceros.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-0 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>Ser mayor de 18 años o contar con autorización de tutor legal.</span>
+                        </li>
+                    </ul>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        La Empresa se reserva el derecho de suspender o cancelar Cuentas que infrinjan estos Términos o que presenten actividad fraudulenta o sospechosa.
+                    </p>
+                </div>
+
+                <!-- 4. Productos y precios -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="sec-4">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-tag"></i> 4. Productos, Precios y Disponibilidad
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Todos los precios publicados en la Plataforma están expresados en <strong>Pesos Mexicanos (MXN)</strong> e incluyen el IVA aplicable, salvo que se indique expresamente lo contrario.
+                    </p>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        La disponibilidad de los Productos está sujeta al inventario en tiempo real. La Empresa se reserva el derecho de modificar precios, suspender o descontinuar Productos en cualquier momento sin previo aviso, sin que ello genere responsabilidad alguna.
+                    </p>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Las imágenes de los Productos son de carácter ilustrativo. El color, textura o tamaño real puede variar ligeramente respecto a la representación digital.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Para compras al mayoreo (B2B), contáctanos directamente para obtener cotizaciones y condiciones especiales.
+                    </p>
+                </div>
+
+                <!-- 5. Pedidos y pagos -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-5">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-credit-card"></i> 5. Pedidos y Métodos de Pago
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Al confirmar un Pedido el Usuario acepta los precios, cantidades y condiciones de entrega seleccionados. La confirmación genera un contrato de compraventa vinculante entre el Usuario y la Empresa.
+                    </p>
+                    <p class="text-muted mb-2" style="line-height: 1.8;"><strong class="text-dark">Métodos de pago aceptados:</strong></p>
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="bi bi-credit-card-2-front text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Tarjeta de crédito / débito</span>
+                                </div>
+                                <p class="text-muted small mb-0">Procesado de forma segura mediante Stripe con cifrado TLS.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="bi bi-paypal text-dark"></i>
+                                    <span class="fw-semibold small text-dark">PayPal</span>
+                                </div>
+                                <p class="text-muted small mb-0">Pago mediante cuenta PayPal verificada.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="bi bi-bank text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Transferencia bancaria</span>
+                                </div>
+                                <p class="text-muted small mb-0">Se confirmará el pedido tras verificar la transferencia (1–2 días hábiles).</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="bi bi-cash-coin text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Contra entrega / Efectivo</span>
+                                </div>
+                                <p class="text-muted small mb-0">Disponible en zonas seleccionadas. Se confirma al momento de la entrega.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        En caso de que un pago resulte rechazado o fraudulento, la Empresa cancelará el Pedido y notificará al Usuario, sin incurrir en ninguna responsabilidad por los daños que pudiera ocasionar dicha cancelación.
+                    </p>
+                </div>
+
+                <!-- 6. Envíos y entrega -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="sec-6">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-truck"></i> 6. Envíos y Entrega
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        El costo de envío se calcula en función del peso, volumen y destino del Pedido, y se muestra claramente antes de finalizar la compra. Los tiempos estimados de entrega son:
+                    </p>
+                    <ul class="list-unstyled mb-3">
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Zona Metropolitana:</strong> 1 a 3 días hábiles.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Interior de la República:</strong> 3 a 7 días hábiles.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-0 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Zonas rurales o de difícil acceso:</strong> hasta 10 días hábiles.</span>
+                        </li>
+                    </ul>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Una vez que el Pedido salga de nuestras instalaciones se te proporcionará un número de rastreo. La Empresa no se responsabiliza por retrasos causados por la paquetería, fenómenos naturales, huelgas o causas de fuerza mayor.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        El riesgo de pérdida o daño de los Productos se transfiere al Usuario en el momento en que el paquete es entregado al servicio de mensajería.
+                    </p>
+                </div>
+
+                <!-- 7. Devoluciones y reembolsos -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-7">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-arrow-return-left"></i> 7. Devoluciones y Reembolsos
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Aceptamos devoluciones dentro de los <strong>15 días naturales</strong> posteriores a la recepción del Pedido, siempre que el Producto se encuentre en las siguientes condiciones:
+                    </p>
+                    <ul class="list-unstyled mb-3">
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>Sin uso, en su empaque original y en condiciones de reventa.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>Acompañado del ticket de compra o número de Pedido.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-0 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span>El Producto presente defecto de fabricación comprobable o error en el surtido.</span>
+                        </li>
+                    </ul>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        <strong class="text-dark">No se aceptan devoluciones</strong> de Productos consumibles ya abiertos, desechables utilizados o artículos personalizados.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Los reembolsos aprobados se procesarán en un plazo de <strong>5 a 10 días hábiles</strong> a través del mismo método de pago utilizado en la compra original.
+                    </p>
+                </div>
+
+                <!-- 8. Reseñas -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="sec-8">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-star"></i> 8. Reseñas y Comentarios
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Los Usuarios pueden publicar reseñas y calificaciones de los Productos. Al hacerlo, garantizan que el contenido es veraz, basado en experiencia propia y no infringe derechos de terceros.
+                    </p>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        La Empresa se reserva el derecho de moderar, editar o eliminar reseñas que contengan lenguaje ofensivo, información falsa, spam, datos personales de terceros o cualquier contenido ilegal.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Al enviar una reseña, el Usuario otorga a la Empresa una licencia no exclusiva, gratuita y mundial para reproducir, publicar y distribuir dicho contenido con fines comerciales y de marketing.
+                    </p>
+                </div>
+
+                <!-- 9. Descuentos y cupones -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-9">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-ticket-perforated"></i> 9. Descuentos y Cupones Promocionales
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Los cupones y códigos de descuento son de uso personal, intransferible y válidos por el periodo indicado en cada promoción. Salvo que se especifique lo contrario:
+                    </p>
+                    <ul class="list-unstyled mb-3">
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-x text-dark fw-bold mt-1"></i>
+                            <span>No son acumulables entre sí ni con otras ofertas vigentes.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-x text-dark fw-bold mt-1"></i>
+                            <span>No se canjean por efectivo ni generan cambio.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-0 text-muted small">
+                            <i class="bi bi-x text-dark fw-bold mt-1"></i>
+                            <span>No aplican en Productos con descuento previo, salvo indicación expresa.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 10. Propiedad intelectual -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="sec-10">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-shield-lock"></i> 10. Propiedad Intelectual
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Todos los contenidos de la Plataforma — incluyendo marca, logotipos, fotografías, textos, diseños, código fuente y base de datos — son propiedad exclusiva de la Empresa o de sus licenciantes y están protegidos por la Ley Federal del Derecho de Autor, la Ley de la Propiedad Industrial y demás legislación aplicable en México.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Queda estrictamente prohibida la reproducción, distribución, modificación o uso comercial de cualquier contenido de la Plataforma sin autorización previa y por escrito de la Empresa.
+                    </p>
+                </div>
+
+                <!-- 11. Limitación de responsabilidad -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-11">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-exclamation-triangle"></i> 11. Limitación de Responsabilidad
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        La Empresa no será responsable por daños indirectos, incidentales, especiales o consecuentes derivados del uso o la imposibilidad de uso de la Plataforma o de los Productos adquiridos, incluyendo pero no limitándose a pérdidas de negocio, lucro cesante o pérdida de datos.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        La responsabilidad total de la Empresa frente al Usuario, por cualquier causa, se limitará al monto pagado por el Pedido que originó el reclamo.
+                    </p>
+                </div>
+
+                <!-- 12. Modificaciones -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="sec-12">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-pencil-square"></i> 12. Modificaciones a los Términos
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        La Empresa se reserva el derecho de actualizar o modificar estos Términos en cualquier momento. Las modificaciones serán publicadas en esta misma página con la fecha de última actualización indicada en el encabezado.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        El uso continuado de la Plataforma después de la publicación de cambios constituye la aceptación de los Términos modificados. Se recomienda revisar esta página periódicamente.
+                    </p>
+                </div>
+
+                <!-- 13. Legislación aplicable -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="sec-13">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-building-check"></i> 13. Legislación Aplicable y Jurisdicción
+                    </div>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Estos Términos se rigen e interpretan conforme a las leyes de los <strong>Estados Unidos Mexicanos</strong>. Para cualquier controversia derivada de su interpretación o ejecución, las partes se someten expresamente a la jurisdicción de los tribunales competentes de la <strong>Ciudad de México</strong>, renunciando a cualquier otro fuero que pudiera corresponderles en razón de sus domicilios presentes o futuros.
+                    </p>
+                </div>
+
+                <!-- 14. Contacto -->
+                <div class="about-cta-strip text-center p-4 p-md-5" id="sec-14">
+                    <h2 class="h5 fw-bold text-uppercase tracking-tight text-dark mb-2">¿Tienes dudas sobre estos Términos?</h2>
+                    <p class="text-muted small mb-4 mx-auto" style="max-width: 480px; line-height: 1.6;">
+                        Nuestro equipo está disponible para resolver cualquier consulta sobre los presentes Términos y Condiciones.
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="{% url 'core:contact' %}" class="btn-minimal-black">
+                            <span>Contáctanos</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="{% url 'core:privacy' %}" class="btn-minimal-outline">
+                            <span>Política de Privacidad</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- /col-lg-9 -->
+        </div><!-- /row -->
+    </div><!-- /container -->
+</section>
+
+<style>
+.legal-nav-link {
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+.legal-nav-link:hover {
+    background: #f5f5f5;
+    color: #111 !important;
+}
+</style>
+{% endblock %}

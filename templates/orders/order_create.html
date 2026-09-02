@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Datos de Envío — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="checkout-shell">
+    <div class="container">
+        <!-- Header minimalista de proceso de compra -->
+        <div class="checkout-header mb-5 pb-3 border-bottom text-center">
+            <div class="d-inline-flex align-items-center gap-2 mb-2 text-uppercase tracking-wider small fw-bold text-muted">
+                <span>1. Carrito</span>
+                <i class="bi bi-chevron-right fs-xs"></i>
+                <span class="text-dark border-bottom border-2 border-dark pb-1">2. Envío</span>
+                <i class="bi bi-chevron-right fs-xs"></i>
+                <span class="text-muted">3. Confirmación</span>
+            </div>
+            <h1 class="checkout-header-title mt-2">Información de Envío</h1>
+            <p class="checkout-header-subtitle mb-0">Completa tus datos de entrega y selecciona tu método de pago preferido para procesar tu orden.</p>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <!-- Columna Izquierda: Formulario de Datos de Envío y Pago -->
+            <div class="col-lg-7">
+                <div class="checkout-card">
+                    <form method="post" id="checkout-form" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Bloque 1: Datos de Contacto -->
+                        <div class="profile-section-divider mt-0 mb-3">
+                            <i class="bi bi-person"></i> Datos de Contacto
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="{{ form.first_name.id_for_label }}" class="profile-field-label">Nombre <span class="text-danger">*</span></label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}<div class="text-danger small mt-1">{{ form.first_name.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.last_name.id_for_label }}" class="profile-field-label">Apellido <span class="text-danger">*</span></label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}<div class="text-danger small mt-1">{{ form.last_name.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.email.id_for_label }}" class="profile-field-label">Correo Electrónico <span class="text-danger">*</span></label>
+                                {{ form.email }}
+                                <div class="profile-field-hint">Enviaremos tu confirmación y guía de rastreo aquí.</div>
+                                {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.phone.id_for_label }}" class="profile-field-label">Teléfono</label>
+                                {{ form.phone }}
+                                <div class="profile-field-hint">Para avisos de entrega y paquetería.</div>
+                                {% if form.phone.errors %}<div class="text-danger small mt-1">{{ form.phone.errors }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Bloque 2: Dirección de Entrega -->
+                        <div class="profile-section-divider mb-3">
+                            <i class="bi bi-geo-alt"></i> Dirección de Entrega
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label for="{{ form.address.id_for_label }}" class="profile-field-label">Calle y Número <span class="text-danger">*</span></label>
+                                {{ form.address }}
+                                {% if form.address.errors %}<div class="text-danger small mt-1">{{ form.address.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.city.id_for_label }}" class="profile-field-label">Colonia <span class="text-danger">*</span></label>
+                                {{ form.city }}
+                                {% if form.city.errors %}<div class="text-danger small mt-1">{{ form.city.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.state.id_for_label }}" class="profile-field-label">Municipio <span class="text-danger">*</span></label>
+                                {{ form.state }}
+                                {% if form.state.errors %}<div class="text-danger small mt-1">{{ form.state.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.country.id_for_label }}" class="profile-field-label">Estado / Provincia <span class="text-danger">*</span></label>
+                                {{ form.country }}
+                                {% if form.country.errors %}<div class="text-danger small mt-1">{{ form.country.errors }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.postal_code.id_for_label }}" class="profile-field-label">Código Postal <span class="text-danger">*</span></label>
+                                {{ form.postal_code }}
+                                {% if form.postal_code.errors %}<div class="text-danger small mt-1">{{ form.postal_code.errors }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Bloque 3: Notas del Pedido -->
+                        <div class="profile-section-divider mb-3">
+                            <i class="bi bi-card-text"></i> Notas Extras del Pedido
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                {{ form.order_notes }}
+                                <div class="profile-field-hint">Indicaciones de entrega, referencias del domicilio o notas adicionales.</div>
+                                {% if form.order_notes.errors %}<div class="text-danger small mt-1">{{ form.order_notes.errors }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Bloque 4: Método de Pago -->
+                        <div class="profile-section-divider mb-3">
+                            <i class="bi bi-credit-card"></i> Forma de Pago
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label for="{{ form.payment_method.id_for_label }}" class="profile-field-label">Selecciona el método <span class="text-danger">*</span></label>
+                                {{ form.payment_method }}
+                                <div class="profile-field-hint">Aceptamos transferencia interbancaria, contra entrega, tarjetas y PayPal.</div>
+                                {% if form.payment_method.errors %}<div class="text-danger small mt-1">{{ form.payment_method.errors }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Botón de Envío -->
+                        <div class="pt-3 border-top">
+                            <button type="submit" class="btn-minimal-black w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-shield-check"></i>
+                                <span>Confirmar y Realizar Pedido</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Resumen del Pedido -->
+            <div class="col-lg-5">
+                <div class="checkout-summary-card">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-bag-check"></i> Resumen de la Orden
+                    </div>
+                    <div class="text-muted small mb-3">
+                        {{ total_items }} artículo{{ total_items|pluralize:"s" }} en tu carrito
+                    </div>
+
+                    <!-- Lista de Productos -->
+                    <div class="order-items-list mb-3 pe-1" style="max-height: 290px; overflow-y: auto;">
+                        {% for item in items %}
+                        <div class="checkout-item-row">
+                            <div class="d-flex align-items-center gap-3">
+                                {% if item.product.main_image %}
+                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="checkout-item-thumb">
+                                {% else %}
+                                <div class="checkout-item-thumb bg-light d-flex align-items-center justify-content-center text-muted">
+                                    <i class="bi bi-box"></i>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <div class="fw-bold text-dark text-truncate" style="max-width: 170px; font-size: 0.88rem;">{{ item.product.name }}</div>
+                                    <div class="text-muted small">Cant: {{ item.quantity }} &times; ${{ item.price }}</div>
+                                </div>
+                            </div>
+                            <span class="fw-bold text-dark" style="font-size: 0.92rem;">${{ item.get_total }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Desglose Financiero -->
+                    <div class="pt-3 border-top">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted small">Subtotal</span>
+                            <span class="fw-semibold text-dark">${{ cart.get_total_without_discount }}</span>
+                        </div>
+
+                        {% if cart.get_discount > 0 %}
+                        <div class="d-flex justify-content-between mb-2 text-danger small">
+                            <span>Ahorro / Descuento</span>
+                            <span class="fw-bold">-${{ cart.get_discount }}</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted small">Costo de Envío</span>
+                            <span class="fw-bold text-success small text-uppercase tracking-wider">Gratis</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top mb-4">
+                            <span class="h6 fw-bold text-dark text-uppercase tracking-tight mb-0">Total a Pagar</span>
+                            <span class="h4 fw-bold text-dark mb-0">${{ total }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Caja de Confianza y Seguridad -->
+                    <div class="checkout-trust-box mb-3">
+                        <i class="bi bi-shield-check"></i>
+                        <div>
+                            <strong>Compra 100% Segura</strong><br>
+                            Tus datos personales y de pago se procesan con cifrado SSL protegido.
+                        </div>
+                    </div>
+
+                    <!-- Enlace para modificar carrito -->
+                    <div class="pt-2">
+                        <a href="{% url 'cart:cart_detail' %}" class="btn-minimal-outline w-100 text-center d-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-arrow-left"></i>
+                            <span>Modificar Carrito</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

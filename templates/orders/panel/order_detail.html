@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Pedido #{{ order.id }} - Panel{% endblock %}
+{% block extra_css %}
+<style>
+  body{background:#f1f5f9}
+  .panel-topbar{background:linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);padding:1.5rem 0}
+  .panel-topbar h1{color:#fff;font-weight:800;font-size:1.3rem;margin:0}
+  .panel-topbar p{color:rgba(255,255,255,.7);font-size:.85rem;margin:0}
+  .detail-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:1.5rem}
+  .detail-card-header{padding:1rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:.75rem;background:#fafbff}
+  .detail-card-header h5{font-weight:700;margin:0;font-size:.95rem;color:#0f172a}
+  .card-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#e0e7ff,#ede9fe);display:flex;align-items:center;justify-content:center;color:#6366f1;font-size:.95rem}
+  .info-row{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.5rem;border-bottom:1px solid #f8fafc;font-size:.875rem}
+  .info-row:last-child{border-bottom:none}
+  .info-label{color:#94a3b8;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+  .info-value{font-weight:500;color:#1e293b;text-align:right}
+  .items-table{width:100%;border-collapse:collapse}
+  .items-table th{padding:.8rem 1.5rem;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+  .items-table td{padding:.9rem 1.5rem;border-top:1px solid #f1f5f9;font-size:.875rem}
+  .product-img{width:50px;height:50px;border-radius:9px;object-fit:cover;border:1px solid #e2e8f0}
+  .product-ph{width:50px;height:50px;border-radius:9px;background:linear-gradient(135deg,#e0e7ff,#ede9fe);display:flex;align-items:center;justify-content:center;color:#6366f1}
+  .sbadge{display:inline-flex;align-items:center;gap:.3rem;border-radius:50px;padding:.3rem .8rem;font-size:.78rem;font-weight:600}
+  .sb-pending{background:#fef3c7;color:#b45309}.sb-processing{background:#cffafe;color:#0e7490}
+  .sb-shipped{background:#dbeafe;color:#1d4ed8}.sb-delivered{background:#d1fae5;color:#065f46}
+  .sb-cancelled{background:#fee2e2;color:#b91c1c}
+  .pb-paid{background:#d1fae5;color:#065f46}.pb-pending{background:#fef3c7;color:#b45309}
+  .pb-failed{background:#fee2e2;color:#b91c1c}.pb-refunded{background:#f3f4f6;color:#6b7280}
+  .update-form-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:1.5rem}
+  .update-form-body{padding:1.5rem}
+  .form-label-custom{font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.4rem}
+  .form-select-custom,.form-input-custom{width:100%;padding:.6rem .9rem;border:1.5px solid #e2e8f0;border-radius:10px;font-size:.88rem;outline:none;background:#f8fafc;transition:border-color .2s}
+  .form-select-custom:focus,.form-input-custom:focus{border-color:#6366f1;background:#fff}
+  .btn-update{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;padding:.65rem 1.5rem;font-size:.9rem;font-weight:700;cursor:pointer;width:100%;transition:all .2s;margin-top:.5rem}
+  .btn-update:hover{box-shadow:0 4px 15px rgba(99,102,241,.4)}
+  .btn-back{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:9px;padding:.4rem .9rem;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s}
+  .btn-back:hover{background:rgba(255,255,255,.2);color:#fff}
+  .summary-total{display:flex;justify-content:space-between;padding:1rem 1.5rem;font-weight:800;font-size:1.05rem;color:#6366f1;border-top:2px solid #e2e8f0}
+  .summary-row{display:flex;justify-content:space-between;padding:.5rem 1.5rem;font-size:.875rem;color:#475569}
+  .tracking-display{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;font-size:.85rem;color:#15803d;font-weight:600}
+</style>
+{% endblock %}
+{% block content %}
+<div class="panel-topbar">
+  <div class="container-fluid px-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div>
+        <h1><i class="bi bi-receipt me-2" style="color:#6ee7b7"></i>Pedido #{{ order.id }} <span style="font-size:.9rem;font-weight:400;color:rgba(255,255,255,.6)">— {{ order.get_full_name }}</span></h1>
+        <p>{{ order.created_at|date:"d/m/Y H:i" }} &middot; {{ order.email }}</p>
+      </div>
+      <a href="{% url 'orders:panel_order_list' %}" class="btn-back"><i class="bi bi-arrow-left"></i> Volver al panel</a>
+    </div>
+  </div>
+</div>
+<div class="container-fluid px-4 py-4">
+  <div class="row g-4">
+    <!-- Izquierda: artículos -->
+    <div class="col-lg-8">
+      <div class="detail-card">
+        <div class="detail-card-header">
+          <div class="card-icon"><i class="bi bi-bag"></i></div>
+          <h5>Artículos del Pedido</h5>
+        </div>
+        <table class="items-table">
+          <thead><tr><th>Producto</th><th class="text-center">Precio</th><th class="text-center">Cant.</th><th class="text-end">Subtotal</th></tr></thead>
+          <tbody>
+            {% for item in order.items.all %}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  {% if item.product and item.product.main_image %}<img src="{{ item.product.main_image.url }}" alt="{{ item.product_name }}" class="product-img">
+                  {% else %}<div class="product-ph"><i class="bi bi-image"></i></div>{% endif %}
+                  <div>
+                    <div style="font-weight:600;color:#1e293b">{{ item.product_name }}</div>
+                    {% if item.product_sku %}<div style="font-size:.75rem;color:#94a3b8">SKU: {{ item.product_sku }}</div>{% endif %}
+                  </div>
+                </div>
+              </td>
+              <td class="text-center" style="color:#64748b">${{ item.price }}</td>
+              <td class="text-center"><span style="background:#f1f5f9;padding:.2rem .6rem;border-radius:6px;font-weight:600">{{ item.quantity }}</span></td>
+              <td class="text-end" style="font-weight:700;color:#6366f1">${{ item.get_cost }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="summary-row" style="border-top:1px solid #f1f5f9;margin-top:.25rem"><span>Subtotal</span><span>${{ order.subtotal }}</span></div>
+        {% if order.discount > 0 %}<div class="summary-row" style="color:#ef4444"><span>Descuento</span><span>-${{ order.discount }}</span></div>{% endif %}
+        <div class="summary-row"><span>Envio</span><span>{% if order.shipping_cost == 0 %}<span style="color:#10b981;font-weight:600">Gratis</span>{% else %}${{ order.shipping_cost }}{% endif %}</span></div>
+        <div class="summary-total"><span>Total</span><span>${{ order.total }}</span></div>
+      </div>
+      <!-- Datos del cliente -->
+      <div class="detail-card">
+        <div class="detail-card-header"><div class="card-icon"><i class="bi bi-person"></i></div><h5>Datos del Cliente y Envio</h5></div>
+        <div class="info-row"><span class="info-label">Nombre</span><span class="info-value">{{ order.get_full_name }}</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value">{{ order.email }}</span></div>
+        <div class="info-row"><span class="info-label">Telefono</span><span class="info-value">{{ order.phone }}</span></div>
+        <div class="info-row"><span class="info-label">Direccion</span><span class="info-value">{{ order.address }}</span></div>
+        <div class="info-row"><span class="info-label">Ciudad / Estado</span><span class="info-value">{{ order.city }}, {{ order.state }}</span></div>
+        <div class="info-row"><span class="info-label">CP / Pais</span><span class="info-value">{{ order.postal_code }} — {{ order.country }}</span></div>
+        {% if order.order_notes %}<div class="info-row" style="align-items:flex-start;flex-direction:column;gap:.4rem;padding:1rem 1.5rem"><span class="info-label">Notas</span><span class="info-value" style="text-align:left;color:#475569;font-style:italic">{{ order.order_notes }}</span></div>{% endif %}
+      </div>
+    </div>
+    <!-- Derecha: resumen + actualizar -->
+    <div class="col-lg-4">
+      <!-- Estado actual -->
+      <div class="detail-card">
+        <div class="detail-card-header"><div class="card-icon"><i class="bi bi-info-circle"></i></div><h5>Estado Actual</h5></div>
+        <div class="info-row"><span class="info-label">Pedido</span><span class="info-value">
+          {% if order.status == 'pending' %}<span class="sbadge sb-pending">Pendiente</span>
+          {% elif order.status == 'processing' %}<span class="sbadge sb-processing">En proceso</span>
+          {% elif order.status == 'shipped' %}<span class="sbadge sb-shipped">Enviado</span>
+          {% elif order.status == 'delivered' %}<span class="sbadge sb-delivered">Entregado</span>
+          {% else %}<span class="sbadge sb-cancelled">Cancelado</span>{% endif %}
+        </span></div>
+        <div class="info-row"><span class="info-label">Pago</span><span class="info-value">
+          {% if order.payment_status == 'paid' %}<span class="sbadge pb-paid"><i class="bi bi-shield-check" style="font-size:.75rem"></i>Pagado</span>
+          {% elif order.payment_status == 'pending' %}<span class="sbadge pb-pending"><i class="bi bi-clock" style="font-size:.75rem"></i>Pendiente</span>
+          {% elif order.payment_status == 'failed' %}<span class="sbadge pb-failed">Fallido</span>
+          {% else %}<span class="sbadge pb-refunded">Reembolsado</span>{% endif %}
+        </span></div>
+        <div class="info-row"><span class="info-label">Metodo de pago</span><span class="info-value">{{ order.get_payment_method_display }}</span></div>
+        {% if order.tracking_number %}<div class="info-row" style="border-top:1px solid #f1f5f9"><span class="info-label">Guia</span><span class="info-value"><code style="background:#f1f5f9;padding:.15rem .4rem;border-radius:4px;font-size:.8rem">{{ order.tracking_number }}</code></span></div>{% endif %}
+      </div>
+      <!-- Formulario de actualización -->
+      <div class="update-form-card">
+        <div class="detail-card-header"><div class="card-icon"><i class="bi bi-pencil"></i></div><h5>Actualizar Pedido</h5></div>
+        <div class="update-form-body">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show py-2 mb-3" style="font-size:.85rem">{{ message }}<button type="button" class="btn-close btn-sm" data-bs-dismiss="alert"></button></div>
+          {% endfor %}
+          {% endif %}
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <div class="form-label-custom">Estado del pedido</div>
+              <select name="status" class="form-select-custom">
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <div class="form-label-custom">Estado del pago</div>
+              <select name="payment_status" class="form-select-custom">
+                {% for value, label in payment_choices %}
+                <option value="{{ value }}" {% if order.payment_status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <div class="form-label-custom">Numero de guia / rastreo</div>
+              <input type="text" name="tracking_number" value="{{ order.tracking_number }}" placeholder="Ej: FX1234567890MX" class="form-input-custom">
+            </div>
+            <button type="submit" class="btn-update"><i class="bi bi-check-circle me-2"></i>Guardar cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

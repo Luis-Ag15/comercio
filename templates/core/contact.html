@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="contact-shell">
+    <div class="container">
+        <!-- Header minimalista -->
+        <div class="contact-header mb-5 pb-3 border-bottom text-center">
+            <h1 class="contact-header-title">Contacto & Atención</h1>
+            <p class="contact-header-subtitle mb-0">Atención personalizada para cafeterías de especialidad, restaurantes, catering y pedidos mayoristas.</p>
+        </div>
+
+        <!-- 3 Tarjetas de Información Superior -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="contact-info-card">
+                    <div class="contact-icon-bubble">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <div class="contact-info-tag">Correo Electrónico</div>
+                    {% if site_settings.email %}
+                    <a href="mailto:{{ site_settings.email }}" class="contact-info-value">{{ site_settings.email }}</a>
+                    {% else %}
+                    <span class="contact-info-value">contacto@mitienda.com</span>
+                    {% endif %}
+                    <div class="contact-info-note">Respuesta en menos de 24 horas hábiles</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="contact-info-card">
+                    <div class="contact-icon-bubble">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <div class="contact-info-tag">Atención Telefónica</div>
+                    {% if site_settings.phone %}
+                    <a href="tel:{{ site_settings.phone }}" class="contact-info-value">{{ site_settings.phone }}</a>
+                    {% else %}
+                    <span class="contact-info-value">+52 55 0000 0000</span>
+                    {% endif %}
+                    <div class="contact-info-note">Lunes a Viernes · 9:00 a 18:00 hrs</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="contact-info-card">
+                    <div class="contact-icon-bubble">
+                        <i class="bi bi-geo-alt"></i>
+                    </div>
+                    <div class="contact-info-tag">Ubicación & Envíos</div>
+                    {% if site_settings.address %}
+                    <span class="contact-info-value">{{ site_settings.address }}</span>
+                    {% else %}
+                    <span class="contact-info-value">Ciudad de México, México</span>
+                    {% endif %}
+                    <div class="contact-info-note">Cobertura y distribución a todo el país</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Formulario y Asesoría B2B -->
+        <div class="row g-4">
+            <!-- Columna Lateral: Tarjeta B2B / Mayoreo -->
+            <div class="col-lg-4">
+                <div class="contact-sidebar-card d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="contact-b2b-badge">
+                            <i class="bi bi-box-seam"></i> Atención Comercial
+                        </div>
+                        <h2 class="h5 fw-bold text-white mb-2 text-uppercase tracking-tight">Suministros para Negocios</h2>
+                        <p class="text-white-50 small mb-4" style="line-height: 1.6;">
+                            Diseñamos soluciones en consumibles y empaques desechables con calidad de grado alimenticio para restaurantes, cafeterías y organizadores de eventos.
+                        </p>
+
+                        <ul class="contact-feature-list">
+                            <li class="contact-feature-item">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Tarifas escalonadas y precios preferenciales por caja y volumen.</span>
+                            </li>
+                            <li class="contact-feature-item">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Atención comercial personalizada y seguimiento de pedidos.</span>
+                            </li>
+                            <li class="contact-feature-item">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Logística ágil con entregas programadas sin fricción.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-3 border-top border-secondary border-opacity-25">
+                        <a href="{% url 'products:product_list' %}" class="btn-minimal-outline border-white text-white w-100 text-center d-flex align-items-center justify-content-center gap-2">
+                            <span>Explorar Catálogo</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Principal: Formulario de Mensaje -->
+            <div class="col-lg-8">
+                <div class="contact-form-card">
+                    <div class="profile-section-divider mt-0 mb-4">
+                        <i class="bi bi-chat-left-text"></i> Envíanos un Mensaje
+                    </div>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Nombre Completo <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control" placeholder="Ej. Alejandra Morales" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Correo Electrónico <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Teléfono de Contacto</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="Ej. +52 55 1234 5678">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Motivo o Asunto <span class="text-danger">*</span></label>
+                                <input type="text" name="subject" class="form-control" placeholder="Ej. Cotización por volumen, muestras..." required>
+                            </div>
+                            <div class="col-12">
+                                <label class="profile-field-label">Mensaje <span class="text-danger">*</span></label>
+                                <textarea name="message" class="form-control" rows="5" placeholder="Describe los productos, capacidades o cantidades que requieres..." required></textarea>
+                            </div>
+                            <div class="col-12 pt-3 border-top d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                                <span class="profile-field-hint mb-0">
+                                    <i class="bi bi-shield-check me-1 text-success"></i> Tus datos están protegidos y solo se usarán para atender tu consulta.
+                                </span>
+                                <button type="submit" class="btn-minimal-black">
+                                    <span>Enviar Mensaje</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

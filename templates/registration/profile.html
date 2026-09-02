@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mi Perfil — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="profile-shell">
+    <div class="container">
+        <!-- Header minimalista -->
+        <div class="profile-header mb-4 pb-3 border-bottom">
+            <h1 class="profile-header-title">Mi Cuenta</h1>
+            <p class="profile-header-subtitle mb-0">Gestiona tu información personal, direcciones de entrega y pedidos.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Sidebar del perfil -->
+            <div class="col-lg-4 col-xl-3">
+                <div class="profile-panel text-center p-4">
+                    <div class="profile-avatar-frame">
+                        {% if profile.avatar %}
+                        <img src="{{ profile.avatar.url }}" alt="{{ user.get_full_name|default:user.username }}" class="profile-avatar-img">
+                        {% else %}
+                        <div class="profile-avatar-fallback">
+                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <h2 class="profile-user-name">{{ user.get_full_name|default:user.username }}</h2>
+                    <div class="profile-user-email">{{ user.email }}</div>
+
+                    {% if user.is_verified %}
+                    <div class="profile-badge-verified">
+                        <i class="bi bi-shield-check"></i> Verificado
+                    </div>
+                    {% else %}
+                    <div class="profile-badge-unverified">
+                        <i class="bi bi-shield-exclamation"></i> Sin verificar
+                    </div>
+                    {% endif %}
+
+                    <nav class="profile-nav-list">
+                        <a href="{% url 'registration:profile' %}" class="profile-nav-item active">
+                            <span><i class="bi bi-person me-2"></i> Mi Perfil</span>
+                            <i class="bi bi-chevron-right small"></i>
+                        </a>
+                        <a href="{% url 'orders:order_list' %}" class="profile-nav-item">
+                            <span><i class="bi bi-bag me-2"></i> Mis Pedidos</span>
+                            <i class="bi bi-chevron-right small"></i>
+                        </a>
+                        <a href="{% url 'registration:logout' %}" class="profile-nav-item profile-nav-danger">
+                            <span><i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Formulario del perfil -->
+            <div class="col-lg-8 col-xl-9">
+                <div class="profile-panel">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+                        <div class="alert alert-danger rounded-0 border-0 mb-4 p-3 small">
+                            <strong>Por favor corrige los errores señalados:</strong>
+                            <ul class="mb-0 mt-1 ps-3">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ field|title }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Sección 1: Datos de Acceso e Identidad -->
+                        <div class="profile-section-divider">
+                            <i class="bi bi-person"></i> Identidad y Acceso
+                        </div>
+
+                        <div class="row g-3 mb-2">
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Nombre</label>
+                                <input type="text" class="form-control profile-input-readonly" value="{{ user.first_name }}" readonly disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Apellido</label>
+                                <input type="text" class="form-control profile-input-readonly" value="{{ user.last_name }}" readonly disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label">Correo Electrónico</label>
+                                <input type="email" class="form-control profile-input-readonly" value="{{ user.email }}" readonly disabled>
+                                <div class="profile-field-hint">Vinculado a tus credenciales de inicio de sesión.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label" for="{{ form.phone.id_for_label }}">Teléfono</label>
+                                {{ form.phone }}
+                                <div class="profile-field-hint">Para avisos de entrega y paquetería.</div>
+                            </div>
+                        </div>
+
+                        <!-- Sección 2: Personalización -->
+                        <div class="profile-section-divider">
+                            <i class="bi bi-image"></i> Personalización
+                        </div>
+
+                        <div class="row g-3 mb-2">
+                            <div class="col-12">
+                                <label class="profile-field-label" for="{{ form.avatar.id_for_label }}">Actualizar Avatar</label>
+                                {{ form.avatar }}
+                                <div class="profile-field-hint">Formatos soportados: JPG, PNG o GIF (hasta 5 MB).</div>
+                            </div>
+                        </div>
+
+                        <!-- Sección 3: Dirección de Entrega -->
+                        <div class="profile-section-divider">
+                            <i class="bi bi-geo-alt"></i> Dirección de Entrega
+                        </div>
+
+                        <div class="row g-3 mb-2">
+                            <div class="col-12">
+                                <label class="profile-field-label" for="{{ form.street.id_for_label }}">Calle y Número</label>
+                                {{ form.street }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label" for="{{ form.city.id_for_label }}">Colonia</label>
+                                {{ form.city }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label" for="{{ form.state.id_for_label }}">Municipio</label>
+                                {{ form.state }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label" for="{{ form.country.id_for_label }}">Estado / Provincia</label>
+                                {{ form.country }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="profile-field-label" for="{{ form.postal_code.id_for_label }}">Código Postal</label>
+                                {{ form.postal_code }}
+                            </div>
+                        </div>
+
+                        <!-- Sección 4: Comunicaciones -->
+                        <div class="profile-section-divider">
+                            <i class="bi bi-envelope-check"></i> Comunicaciones
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check d-flex align-items-center">
+                                {{ form.newsletter }}
+                                <label class="form-check-label" for="{{ form.newsletter.id_for_label }}">
+                                    Deseo recibir actualizaciones de nuevos productos, suministros de menaje y ofertas exclusivas.
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Acciones -->
+                        <div class="pt-4 border-top d-flex justify-content-end">
+                            <button type="submit" class="btn-minimal-black">
+                                <span>Guardar Cambios</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

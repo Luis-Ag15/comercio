@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg navbar-minimal">
+    <div class="container">
+        <a class="navbar-brand-minimal" href="{% url 'core:home' %}">
+            {{ site_name }}
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list fs-3 text-dark"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link-minimal" href="{% url 'core:home' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-minimal" href="{% url 'products:product_list' %}">Catálogo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-minimal" href="{% url 'core:about' %}">Sobre Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-minimal" href="{% url 'core:contact' %}">Contacto</a>
+                </li>
+            </ul>
+            
+            <!-- Search -->
+            <form class="nav-search-minimal me-3" action="{% url 'products:product_list' %}" method="get">
+                <input class="nav-search-input-minimal" type="search" name="search" placeholder="Buscar vasos, platos, empaques..." value="{{ request.GET.search }}">
+            </form>
+            
+            <!-- Cart -->
+            <a href="{% url 'cart:cart_detail' %}" class="cart-icon-btn-minimal me-3" title="Bolsa de compras">
+                <i class="bi bi-bag"></i>
+                {% if cart_items_count > 0 %}
+                <span class="cart-badge-minimal">
+                    {{ cart_items_count }}
+                </span>
+                {% endif %}
+            </a>
+            
+            <!-- User -->
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link-minimal dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person me-1"></i> {{ user.first_name|default:user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end border rounded-0 shadow-sm">
+                        <li><a class="dropdown-item py-2 small" href="{% url 'registration:profile' %}">
+                            Mi Perfil
+                        </a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'orders:order_list' %}">
+                            Mis Órdenes
+                        </a></li>
+                        {% if user.is_staff or user.is_superuser %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item py-2 small text-muted" href="{% url 'orders:panel_order_list' %}">
+                            Panel de Pedidos
+                        </a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:product_create' %}">
+                            Subir Producto
+                        </a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:stock_manage' %}">
+                            Inventario
+                        </a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:category_list' %}">
+                            Categorías
+                        </a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:brand_list' %}">
+                            Marcas
+                        </a></li>
+                        {% endif %}
+
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item py-2 small text-danger" href="{% url 'registration:logout' %}">
+                            Cerrar Sesión
+                        </a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link-minimal" href="{% url 'registration:login' %}">
+                        Ingresar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-minimal" href="{% url 'registration:register' %}">
+                        Registrarse
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

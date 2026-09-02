@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}¡Pedido Confirmado! #{{ order.id }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5 text-center">
+                    <div class="mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle" style="width: 70px; height: 70px;">
+                            <i class="bi bi-check2 fs-1"></i>
+                        </div>
+                    </div>
+
+                    <h1 class="h3 fw-bold text-success mb-2">¡Gracias por tu compra, {{ order.first_name }}!</h1>
+                    <p class="text-muted mb-4">
+                        Tu pedido ha sido recibido y registrado exitosamente con el número <strong>#{{ order.id }}</strong>.
+                        Se ha enviado una confirmación a <strong>{{ order.email }}</strong>.
+                    </p>
+
+                    <div class="card bg-light border-0 text-start p-4 mb-4">
+                        <h5 class="fw-bold mb-3 border-bottom pb-2">Detalles del Pedido</h5>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-2">
+                                <span class="text-muted d-block small">Número de Orden:</span>
+                                <strong>#{{ order.id }}</strong>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <span class="text-muted d-block small">Fecha:</span>
+                                <strong>{{ order.created_at|date:"d/m/Y H:i" }}</strong>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <span class="text-muted d-block small">Método de Pago:</span>
+                                <strong>{{ order.get_payment_method_display }}</strong>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <span class="text-muted d-block small">Estado:</span>
+                                <span class="badge bg-warning text-dark">{{ order.get_status_display }}</span>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold mb-2">Artículos comprados:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-borderless">
+                                <tbody>
+                                    {% for item in order.items.all %}
+                                    <tr class="border-bottom">
+                                        <td>{{ item.quantity }}x {{ item.product_name }}</td>
+                                        <td class="text-end fw-semibold">${{ item.get_cost }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td class="fw-bold pt-3 fs-6">Total:</td>
+                                        <td class="text-end fw-bold pt-3 fs-6 text-primary">${{ order.total }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-2 pt-2 border-top">
+                            <span class="text-muted d-block small">Dirección de Entrega:</span>
+                            <p class="mb-0">
+                                {{ order.address }}<br>
+                                {{ order.city }}, {{ order.state }} CP {{ order.postal_code }} - {{ order.country }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <button onclick="window.print()" class="btn btn-outline-secondary">
+                            <i class="bi bi-printer me-1"></i> Imprimir Recibo
+                        </button>
+                        <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                            <i class="bi bi-bag me-1"></i> Seguir Comprando
+                        </a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'orders:order_list' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-clock-history me-1"></i> Mis Pedidos
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

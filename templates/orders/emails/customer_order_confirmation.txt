@@ -1,0 +1,17 @@
+¡GRACIAS POR TU COMPRA! - Pedido #{{ order.id }}
+
+Hola {{ order.first_name }}, hemos recibido tu pedido con éxito.
+
+DETALLE DEL PEDIDO:
+{% for item in order.items.all %}
+- {{ item.quantity }}x {{ item.product_name }} - ${{ item.price }} (Subtotal: ${{ item.get_cost }})
+{% endfor %}
+
+TOTAL: ${{ order.total }}
+
+DIRECCIÓN DE ENTREGA:
+{{ order.address }}
+{{ order.city }}, {{ order.state }} CP {{ order.postal_code }}
+Tel: {{ order.phone }}
+
+¡Te notificaremos en cuanto tu paquete esté en camino!

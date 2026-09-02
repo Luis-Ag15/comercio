@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; background-color: #f8f9fa; margin: 0; padding: 20px; }
+        .container { max-width: 650px; background: #ffffff; margin: 0 auto; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #e9ecef; }
+        .header { border-bottom: 2px solid #198754; padding-bottom: 15px; margin-bottom: 20px; }
+        .header h1 { color: #198754; margin: 0; font-size: 22px; }
+        .section { margin-bottom: 25px; }
+        .section-title { font-size: 16px; font-weight: bold; color: #495057; border-bottom: 1px solid #dee2e6; padding-bottom: 5px; margin-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th { background: #f8f9fa; text-align: left; padding: 10px; font-size: 13px; color: #6c757d; border-bottom: 1px solid #dee2e6; }
+        td { padding: 10px; border-bottom: 1px solid #f1f1f1; font-size: 14px; }
+        .total-row td { font-weight: bold; font-size: 15px; border-top: 2px solid #dee2e6; color: #111; }
+        .footer { margin-top: 30px; font-size: 12px; color: #868e96; text-align: center; border-top: 1px solid #eee; padding-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 ¡Gracias por tu compra, {{ order.first_name }}!</h1>
+            <p style="margin: 5px 0 0 0; color: #6c757d;">Hemos recibido tu pedido <strong>#{{ order.id }}</strong> correctamente.</p>
+        </div>
+
+        <div class="section">
+            <p>Estamos procesando tu orden y te notificaremos cuando sea enviada.</p>
+            <div class="section-title">Detalle de tu Compra</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th style="text-align: center;">Cant.</th>
+                        <th style="text-align: right;">Precio</th>
+                        <th style="text-align: right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td><strong>{{ item.product_name }}</strong></td>
+                        <td style="text-align: center;">{{ item.quantity }}</td>
+                        <td style="text-align: right;">${{ item.price }}</td>
+                        <td style="text-align: right;">${{ item.get_cost }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="total-row">
+                        <td colspan="3" style="text-align: right;">Total:</td>
+                        <td style="text-align: right; color: #198754;">${{ order.total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Dirección de Entrega</div>
+            <p style="margin: 0;">
+                {{ order.get_full_name }}<br>
+                {{ order.address }}<br>
+                {{ order.city }}, {{ order.state }} CP {{ order.postal_code }}<br>
+                Tel: {{ order.phone }}
+            </p>
+        </div>
+
+        <div class="footer">
+            Si tienes dudas sobre tu pedido, contáctanos respondiendo a este correo.
+        </div>
+    </div>
+</body>
+</html>

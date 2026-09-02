@@ -1,0 +1,488 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Política de Privacidad — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="about-shell">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="about-header mb-5 pb-3 border-bottom text-center">
+            <h1 class="about-header-title">Política de Privacidad</h1>
+            <p class="about-header-subtitle mb-0">
+                Última actualización: {% now "j \d\e F \d\e Y" %}. Tu privacidad es nuestra prioridad.
+            </p>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <!-- Índice lateral -->
+            <div class="col-lg-3 d-none d-lg-block" style="position: sticky; top: 100px; align-self: flex-start;">
+                <div class="about-pillar-card p-4">
+                    <div class="contact-info-tag mb-3">Contenido</div>
+                    <nav class="d-flex flex-column gap-2">
+                        <a href="#priv-1" class="text-muted small text-decoration-none legal-nav-link">1. Responsable</a>
+                        <a href="#priv-2" class="text-muted small text-decoration-none legal-nav-link">2. Datos que recopilamos</a>
+                        <a href="#priv-3" class="text-muted small text-decoration-none legal-nav-link">3. Finalidad del tratamiento</a>
+                        <a href="#priv-4" class="text-muted small text-decoration-none legal-nav-link">4. Base legal</a>
+                        <a href="#priv-5" class="text-muted small text-decoration-none legal-nav-link">5. Seguridad y cifrado</a>
+                        <a href="#priv-6" class="text-muted small text-decoration-none legal-nav-link">6. Compartir datos</a>
+                        <a href="#priv-7" class="text-muted small text-decoration-none legal-nav-link">7. Transferencias internacionales</a>
+                        <a href="#priv-8" class="text-muted small text-decoration-none legal-nav-link">8. Cookies y trazabilidad</a>
+                        <a href="#priv-9" class="text-muted small text-decoration-none legal-nav-link">9. Retención de datos</a>
+                        <a href="#priv-10" class="text-muted small text-decoration-none legal-nav-link">10. Tus derechos ARCO</a>
+                        <a href="#priv-11" class="text-muted small text-decoration-none legal-nav-link">11. Newsletter</a>
+                        <a href="#priv-12" class="text-muted small text-decoration-none legal-nav-link">12. Menores de edad</a>
+                        <a href="#priv-13" class="text-muted small text-decoration-none legal-nav-link">13. Cambios a esta política</a>
+                        <a href="#priv-14" class="text-muted small text-decoration-none legal-nav-link">14. Contacto</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="col-lg-9">
+
+                <!-- Aviso destacado -->
+                <div class="mb-4 p-4 rounded-3" id="priv-0" style="background: #f0f4ff; border: 1.5px solid #c7d7f7;">
+                    <div class="d-flex gap-3 align-items-start">
+                        <i class="bi bi-shield-check fs-3 mt-1 flex-shrink-0" style="color: #3b5bdb;"></i>
+                        <div>
+                            <h2 class="h6 fw-bold text-uppercase tracking-tight mb-2" style="color: #1e3a8a;">Compromiso con tu privacidad</h2>
+                            <p class="small mb-0" style="line-height: 1.7; color: #374151;">
+                                En <strong style="color: #1e3a8a;">{{ site_name }}</strong> tomamos muy en serio la protección de tus datos personales. Esta Política de Privacidad describe de manera transparente qué información recopilamos, cómo la usamos, con quién la compartimos y los derechos que tienes sobre ella, en cumplimiento con la <strong style="color: #1e3a8a;">Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)</strong> y su reglamento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. Responsable -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-1">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-building"></i> 1. Responsable del Tratamiento
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        El responsable del tratamiento de tus datos personales es <strong>{{ site_name }}</strong>, con domicilio y correo de contacto disponibles en nuestra página de <a href="{% url 'core:contact' %}" class="text-dark fw-semibold">Contacto</a>.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Para cualquier asunto relacionado con el tratamiento de tus datos personales, puedes comunicarte directamente con nuestro equipo de privacidad a través de los medios indicados en la sección 14 de este documento.
+                    </p>
+                </div>
+
+                <!-- 2. Datos que recopilamos -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="priv-2">
+                    <div class="profile-section-divider mt-0 mb-4">
+                        <i class="bi bi-database"></i> 2. Datos Personales que Recopilamos
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Datos de cuenta -->
+                        <div class="col-md-6">
+                            <div class="about-manifesto-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-person-circle text-dark"></i>
+                                    <span class="fw-semibold small text-dark text-uppercase tracking-tight">Datos de Cuenta</span>
+                                </div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="text-muted small mb-1">• Nombre y apellido</li>
+                                    <li class="text-muted small mb-1">• Correo electrónico</li>
+                                    <li class="text-muted small mb-1">• Nombre de usuario</li>
+                                    <li class="text-muted small mb-1">• Contraseña (hash bcrypt)</li>
+                                    <li class="text-muted small">• Foto de perfil (opcional)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Datos de pedido -->
+                        <div class="col-md-6">
+                            <div class="about-manifesto-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-bag text-dark"></i>
+                                    <span class="fw-semibold small text-dark text-uppercase tracking-tight">Datos de Pedido</span>
+                                </div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="text-muted small mb-1">• Dirección de envío completa</li>
+                                    <li class="text-muted small mb-1">• Teléfono de contacto</li>
+                                    <li class="text-muted small mb-1">• Fecha de nacimiento</li>
+                                    <li class="text-muted small mb-1">• Método de pago (tipo)</li>
+                                    <li class="text-muted small">• Historial de compras</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Datos técnicos -->
+                        <div class="col-md-6">
+                            <div class="about-manifesto-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-cpu text-dark"></i>
+                                    <span class="fw-semibold small text-dark text-uppercase tracking-tight">Datos Técnicos</span>
+                                </div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="text-muted small mb-1">• Dirección IP</li>
+                                    <li class="text-muted small mb-1">• Tipo y versión de navegador</li>
+                                    <li class="text-muted small mb-1">• Sistema operativo</li>
+                                    <li class="text-muted small mb-1">• Páginas visitadas</li>
+                                    <li class="text-muted small">• Fecha y hora de sesión</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Datos de comunicación -->
+                        <div class="col-md-6">
+                            <div class="about-manifesto-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-envelope text-dark"></i>
+                                    <span class="fw-semibold small text-dark text-uppercase tracking-tight">Datos de Comunicación</span>
+                                </div>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="text-muted small mb-1">• Mensajes de contacto</li>
+                                    <li class="text-muted small mb-1">• Contenido de reseñas</li>
+                                    <li class="text-muted small mb-1">• Preferencias de newsletter</li>
+                                    <li class="text-muted small">• Notas de pedido</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mt-3 mb-0" style="line-height: 1.7;">
+                        <i class="bi bi-info-circle me-1"></i>
+                        <strong class="text-dark">Nota:</strong> No recopilamos datos de tarjeta de crédito/débito directamente. Los pagos con tarjeta son procesados de forma segura por <strong>Stripe</strong>, sujeto a su propia política de privacidad. Solo almacenamos el tipo de método de pago utilizado.
+                    </p>
+                </div>
+
+                <!-- 3. Finalidad -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-3">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-bullseye"></i> 3. Finalidad del Tratamiento
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Tratamos tus datos personales para las siguientes finalidades:
+                    </p>
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <div class="d-flex gap-3 p-3 rounded-3" style="background: #fafafa; border: 1px solid #eee;">
+                                <i class="bi bi-check2-circle text-dark fs-5 mt-1 flex-shrink-0"></i>
+                                <div>
+                                    <p class="fw-semibold small text-dark mb-1">Finalidades primarias (necesarias para el servicio)</p>
+                                    <ul class="text-muted small mb-0 ps-3">
+                                        <li>Gestión de tu cuenta, autenticación y seguridad.</li>
+                                        <li>Procesamiento, confirmación y seguimiento de Pedidos.</li>
+                                        <li>Gestión de envíos, devoluciones y reembolsos.</li>
+                                        <li>Emisión de comprobantes fiscales y facturación.</li>
+                                        <li>Atención al cliente y resolución de disputas.</li>
+                                        <li>Bitácora de auditoría de seguridad (inicio/cierre de sesión, cambios críticos).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex gap-3 p-3 rounded-3" style="background: #fafafa; border: 1px solid #eee;">
+                                <i class="bi bi-info-circle text-dark fs-5 mt-1 flex-shrink-0"></i>
+                                <div>
+                                    <p class="fw-semibold small text-dark mb-1">Finalidades secundarias (con tu consentimiento)</p>
+                                    <ul class="text-muted small mb-0 ps-3">
+                                        <li>Envío de boletín informativo (newsletter) con novedades, ofertas y contenido relevante.</li>
+                                        <li>Personalización de la experiencia de compra y recomendaciones de Productos.</li>
+                                        <li>Análisis estadístico interno para mejorar el catálogo y la plataforma.</li>
+                                        <li>Actividades de marketing y publicidad segmentada.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0" style="line-height: 1.7;">
+                        Puedes oponerte al tratamiento de datos para finalidades secundarias en cualquier momento desde tu perfil o enviándonos un correo, sin que ello afecte la prestación del servicio principal.
+                    </p>
+                </div>
+
+                <!-- 4. Base legal -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="priv-4">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-file-earmark-text"></i> 4. Base Legal del Tratamiento
+                    </div>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Ejecución contractual:</strong> el tratamiento es necesario para gestionar tu cuenta, procesar tus Pedidos y brindarte el servicio contratado.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Obligación legal:</strong> en cumplimiento de la LFPDPPP, el Código de Comercio, la Ley del IVA y demás normativas fiscales aplicables en México.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-0 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-dot fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Consentimiento:</strong> para finalidades secundarias como el newsletter y marketing, basado en tu aceptación explícita al momento del registro o desde tu perfil.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. Seguridad y cifrado -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-5">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-lock"></i> 5. Seguridad y Cifrado de Datos
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Implementamos medidas técnicas y organizativas robustas para proteger tus datos personales:
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-key text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Cifrado en base de datos</span>
+                                </div>
+                                <p class="text-muted small mb-0">Los campos sensibles (nombre, dirección, teléfono) se almacenan cifrados con <strong>AES-256</strong> directamente en la base de datos.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-shield-shaded text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Transmisión segura</span>
+                                </div>
+                                <p class="text-muted small mb-0">Toda comunicación entre tu navegador y nuestros servidores está protegida con <strong>HTTPS / TLS</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-hash text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Contraseñas hasheadas</span>
+                                </div>
+                                <p class="text-muted small mb-0">Las contraseñas nunca se almacenan en texto plano; utilizamos hashing seguro con <strong>PBKDF2 + SHA-256</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="about-pillar-card p-3">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="bi bi-journal-check text-dark"></i>
+                                    <span class="fw-semibold small text-dark">Bitácora de auditoría</span>
+                                </div>
+                                <p class="text-muted small mb-0">Registramos eventos críticos (inicios de sesión, cambios de datos, creación de pedidos) en un log inmutable de auditoría.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0" style="line-height: 1.7;">
+                        A pesar de estas medidas, ningún sistema es 100% invulnerable. En caso de una brecha de seguridad que afecte tus datos, te notificaremos conforme lo exige la LFPDPPP.
+                    </p>
+                </div>
+
+                <!-- 6. Compartir datos -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="priv-6">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-share"></i> 6. Compartir Datos con Terceros
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        No vendemos ni alquilamos tus datos personales. Solo los compartimos en las siguientes circunstancias:
+                    </p>
+                    <ul class="list-unstyled mb-3">
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-arrow-right-short fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Proveedores de pago:</strong> Stripe y PayPal procesan los datos de pago necesarios para completar transacciones, bajo sus propias políticas de privacidad.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-arrow-right-short fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Empresas de mensajería:</strong> compartimos nombre y dirección de envío con los servicios de paquetería para realizar la entrega de tus Pedidos.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-3 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-arrow-right-short fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Proveedor de correo:</strong> utilizamos Gmail (Google Workspace) para el envío de correos transaccionales y notificaciones.</span>
+                        </li>
+                        <li class="d-flex gap-3 mb-0 text-muted" style="line-height: 1.7;">
+                            <i class="bi bi-arrow-right-short fs-5 mt-1 flex-shrink-0 text-dark"></i>
+                            <span><strong class="text-dark">Autoridades:</strong> cuando sea requerido por ley, mandamiento judicial o para proteger nuestros derechos legales.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 7. Transferencias internacionales -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-7">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-globe"></i> 7. Transferencias Internacionales de Datos
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Algunos de nuestros proveedores de servicios (Stripe, PayPal, Google) operan en los Estados Unidos y otros países. Al utilizar la Plataforma consientes que tus datos puedan ser procesados fuera de México, en jurisdicciones que pueden tener normativas de protección de datos distintas.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Nos aseguramos de que dichos proveedores cuenten con mecanismos adecuados de protección (cláusulas contractuales estándar, certificaciones de privacidad) antes de cualquier transferencia.
+                    </p>
+                </div>
+
+                <!-- 8. Cookies -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="priv-8">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-cookie"></i> 8. Cookies y Tecnologías de Rastreo
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Utilizamos cookies y tecnologías similares para mejorar tu experiencia en la Plataforma. Los tipos de cookies que empleamos son:
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <i class="bi bi-gear fs-4 text-dark mb-2"></i>
+                                <p class="fw-semibold small text-dark mb-1">Estrictamente necesarias</p>
+                                <p class="text-muted small mb-0">Sesión, autenticación y carrito de compras. No pueden desactivarse.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <i class="bi bi-bar-chart fs-4 text-dark mb-2"></i>
+                                <p class="fw-semibold small text-dark mb-1">Analíticas</p>
+                                <p class="text-muted small mb-0">Medición de tráfico y comportamiento para mejorar el sitio.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <i class="bi bi-megaphone fs-4 text-dark mb-2"></i>
+                                <p class="fw-semibold small text-dark mb-1">Marketing</p>
+                                <p class="text-muted small mb-0">Publicidad personalizada basada en tus intereses (con tu consentimiento).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0" style="line-height: 1.7;">
+                        Puedes configurar o deshabilitar las cookies no esenciales desde la configuración de tu navegador. Ten en cuenta que deshabilitar ciertas cookies puede afectar la funcionalidad de la Plataforma.
+                    </p>
+                </div>
+
+                <!-- 9. Retención -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-9">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-clock-history"></i> 9. Retención de Datos
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Conservamos tus datos personales únicamente durante el tiempo necesario para cumplir con las finalidades descritas:
+                    </p>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Cuenta activa:</strong> mientras mantengas tu cuenta abierta.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Historial de pedidos:</strong> mínimo 5 años conforme a obligaciones fiscales y comerciales.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-2 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Bitácora de auditoría:</strong> hasta 2 años para fines de seguridad.</span>
+                        </li>
+                        <li class="d-flex gap-2 mb-0 text-muted small">
+                            <i class="bi bi-check2 text-dark fw-bold mt-1"></i>
+                            <span><strong class="text-dark">Cuenta cancelada:</strong> anonimizamos o eliminamos los datos en un plazo de 30 días, salvo obligación legal de conservación.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 10. Derechos ARCO -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="priv-10">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-person-gear"></i> 10. Tus Derechos ARCO
+                    </div>
+                    <p class="text-muted mb-4" style="line-height: 1.8;">
+                        De conformidad con la LFPDPPP, tienes los siguientes derechos sobre tus datos personales:
+                    </p>
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6 col-md-3">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <div class="about-pillar-icon mb-2" style="width: 48px; height: 48px; margin: 0 auto;">
+                                    <i class="bi bi-eye" style="font-size: 1.2rem;"></i>
+                                </div>
+                                <p class="fw-bold small text-dark text-uppercase mb-1">Acceso</p>
+                                <p class="text-muted small mb-0">Conocer qué datos tenemos sobre ti.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <div class="about-pillar-icon mb-2" style="width: 48px; height: 48px; margin: 0 auto;">
+                                    <i class="bi bi-pencil" style="font-size: 1.2rem;"></i>
+                                </div>
+                                <p class="fw-bold small text-dark text-uppercase mb-1">Rectificación</p>
+                                <p class="text-muted small mb-0">Corregir datos inexactos o incompletos.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <div class="about-pillar-icon mb-2" style="width: 48px; height: 48px; margin: 0 auto;">
+                                    <i class="bi bi-trash" style="font-size: 1.2rem;"></i>
+                                </div>
+                                <p class="fw-bold small text-dark text-uppercase mb-1">Cancelación</p>
+                                <p class="text-muted small mb-0">Solicitar la eliminación de tus datos.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="about-manifesto-card p-3 text-center">
+                                <div class="about-pillar-icon mb-2" style="width: 48px; height: 48px; margin: 0 auto;">
+                                    <i class="bi bi-x-circle" style="font-size: 1.2rem;"></i>
+                                </div>
+                                <p class="fw-bold small text-dark text-uppercase mb-1">Oposición</p>
+                                <p class="text-muted small mb-0">Oponerte al tratamiento para ciertos fines.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Para ejercer tus derechos ARCO, envía una solicitud a través de nuestra página de <a href="{% url 'core:contact' %}" class="text-dark fw-semibold">Contacto</a> indicando tu nombre completo, correo registrado, derecho que deseas ejercer y descripción del tratamiento afectado. Responderemos en un plazo máximo de <strong>20 días hábiles</strong>.
+                    </p>
+                </div>
+
+                <!-- 11. Newsletter -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-11">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-envelope-paper"></i> 11. Newsletter y Comunicaciones Comerciales
+                    </div>
+                    <p class="text-muted mb-3" style="line-height: 1.8;">
+                        Si suscribes al boletín informativo (newsletter) durante el registro o desde tu perfil, utilizaremos tu correo electrónico para enviarte novedades del catálogo, promociones y contenido relevante.
+                    </p>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Puedes darte de baja del newsletter en cualquier momento haciendo clic en el enlace de cancelación incluido en cada correo o modificando tus preferencias desde tu perfil de usuario, sin que ello afecte el servicio de compras.
+                    </p>
+                </div>
+
+                <!-- 12. Menores de edad -->
+                <div class="about-pillar-card mb-4 p-4 p-md-5" id="priv-12">
+                    <div class="profile-section-divider mt-0 mb-3">
+                        <i class="bi bi-person-x"></i> 12. Menores de Edad
+                    </div>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        La Plataforma no está dirigida a menores de 18 años. No recopilamos intencionalmente datos personales de menores de edad. Si tienes conocimiento de que un menor nos ha proporcionado datos sin autorización del tutor, contáctanos de inmediato para proceder a su eliminación.
+                    </p>
+                </div>
+
+                <!-- 13. Cambios -->
+                <div class="about-manifesto-card mb-4 p-4 p-md-5" id="priv-13">
+                    <div class="about-manifesto-badge mb-3">
+                        <i class="bi bi-pencil-square"></i> 13. Cambios a esta Política
+                    </div>
+                    <p class="text-muted mb-0" style="line-height: 1.8;">
+                        Podemos actualizar esta Política de Privacidad periódicamente para reflejar cambios en nuestras prácticas, en la legislación aplicable o en los servicios ofrecidos. Notificaremos cambios materiales mediante un aviso destacado en la Plataforma o por correo electrónico. La fecha de última actualización siempre estará indicada en el encabezado de esta página.
+                    </p>
+                </div>
+
+                <!-- 14. Contacto -->
+                <div class="about-cta-strip text-center p-4 p-md-5" id="priv-14">
+                    <h2 class="h5 fw-bold text-uppercase tracking-tight text-dark mb-2">¿Preguntas sobre tu privacidad?</h2>
+                    <p class="text-muted small mb-4 mx-auto" style="max-width: 480px; line-height: 1.6;">
+                        Si tienes alguna duda, comentario o deseas ejercer tus derechos ARCO, nuestro equipo está disponible para atenderte.
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="{% url 'core:contact' %}" class="btn-minimal-black">
+                            <span>Contáctanos</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="{% url 'core:terms' %}" class="btn-minimal-outline">
+                            <span>Términos y Condiciones</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- /col-lg-9 -->
+        </div><!-- /row -->
+    </div><!-- /container -->
+</section>
+
+<style>
+.legal-nav-link {
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+.legal-nav-link:hover {
+    background: #f5f5f5;
+    color: #111 !important;
+}
+</style>
+{% endblock %}

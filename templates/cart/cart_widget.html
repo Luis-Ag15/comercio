@@ -1,0 +1,24 @@
+<div class="dropdown-menu dropdown-menu-end p-3 shadow" style="min-width: 300px;">
+    <h6 class="dropdown-header">Carrito ({{ total_items }})</h6>
+    {% for item in cart_items %}
+    <div class="d-flex align-items-center gap-2 py-2 border-bottom">
+        {% if item.product.main_image %}
+        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}"
+             class="rounded" style="width: 45px; height: 45px; object-fit: cover;">
+        {% endif %}
+        <div class="flex-grow-1">
+            <div class="small fw-semibold">{{ item.product.name|truncatechars:30 }}</div>
+            <div class="small text-muted">{{ item.quantity }} x ${{ item.price }}</div>
+        </div>
+        <span class="fw-bold small">${{ item.get_total }}</span>
+    </div>
+    {% empty %}
+    <p class="text-center text-muted py-2 mb-0">El carrito está vacío</p>
+    {% endfor %}
+    {% if total_items > 0 %}
+    <div class="d-flex justify-content-between align-items-center pt-2 mt-1">
+        <strong>Total: ${{ total }}</strong>
+        <a href="{% url 'cart:cart_detail' %}" class="btn btn-primary btn-sm">Ver carrito</a>
+    </div>
+    {% endif %}
+</div>

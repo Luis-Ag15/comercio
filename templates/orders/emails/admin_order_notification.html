@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; background-color: #f8f9fa; margin: 0; padding: 20px; }
+        .container { max-width: 650px; background: #ffffff; margin: 0 auto; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #e9ecef; }
+        .header { border-bottom: 2px solid #0d6efd; padding-bottom: 15px; margin-bottom: 20px; }
+        .header h1 { color: #0d6efd; margin: 0; font-size: 22px; }
+        .badge { display: inline-block; padding: 4px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; background: #e7f1ff; color: #0c63e4; }
+        .section { margin-bottom: 25px; }
+        .section-title { font-size: 16px; font-weight: bold; color: #495057; border-bottom: 1px solid #dee2e6; padding-bottom: 5px; margin-bottom: 12px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th { background: #f8f9fa; text-align: left; padding: 10px; font-size: 13px; color: #6c757d; border-bottom: 1px solid #dee2e6; }
+        td { padding: 10px; border-bottom: 1px solid #f1f1f1; font-size: 14px; }
+        .total-row td { font-weight: bold; font-size: 15px; border-top: 2px solid #dee2e6; color: #111; }
+        .info-grid { display: table; width: 100%; }
+        .info-col { display: table-cell; width: 50%; vertical-align: top; font-size: 14px; }
+        .button { display: inline-block; padding: 10px 20px; background-color: #0d6efd; color: #ffffff !important; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; }
+        .footer { margin-top: 30px; font-size: 12px; color: #868e96; text-align: center; border-top: 1px solid #eee; padding-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ ¡Nuevo Pedido Recibido!</h1>
+            <p style="margin: 5px 0 0 0; color: #6c757d;">Pedido <strong>#{{ order.id }}</strong> &bull; {{ order.created_at|date:"d/m/Y H:i" }}</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Resumen de Artículos</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th style="text-align: center;">Cant.</th>
+                        <th style="text-align: right;">P. Unitario</th>
+                        <th style="text-align: right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.product_name }}</strong>
+                            {% if item.product_sku %}<br><small style="color: #6c757d;">SKU: {{ item.product_sku }}</small>{% endif %}
+                        </td>
+                        <td style="text-align: center;">{{ item.quantity }}</td>
+                        <td style="text-align: right;">${{ item.price }}</td>
+                        <td style="text-align: right;">${{ item.get_cost }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% if order.shipping_cost > 0 %}
+                    <tr>
+                        <td colspan="3" style="text-align: right;">Costo de Envío:</td>
+                        <td style="text-align: right;">${{ order.shipping_cost }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if order.discount > 0 %}
+                    <tr>
+                        <td colspan="3" style="text-align: right; color: #dc3545;">Descuento:</td>
+                        <td style="text-align: right; color: #dc3545;">-${{ order.discount }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td colspan="3" style="text-align: right;">Total del Pedido:</td>
+                        <td style="text-align: right; color: #0d6efd;">${{ order.total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Datos del Cliente y Entrega</div>
+            <div class="info-grid">
+                <div class="info-col">
+                    <strong>Cliente:</strong> {{ order.get_full_name }}<br>
+                    <strong>Email:</strong> <a href="mailto:{{ order.email }}">{{ order.email }}</a><br>
+                    <strong>Teléfono:</strong> {{ order.phone }}<br>
+                    <strong>Método de pago:</strong> {{ order.get_payment_method_display }}
+                </div>
+                <div class="info-col">
+                    <strong>Dirección de entrega:</strong><br>
+                    {{ order.address }}<br>
+                    {{ order.city }}, {{ order.state }} (CP: {{ order.postal_code }})<br>
+                    {{ order.country }}
+                </div>
+            </div>
+            {% if order.order_notes %}
+            <div style="margin-top: 15px; background: #fff3cd; padding: 10px; border-radius: 4px; font-size: 13px; color: #664d03;">
+                <strong>Notas del cliente:</strong> {{ order.order_notes }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="{{ admin_url }}" class="button">Gestionar Pedido en el Panel de Administración</a>
+        </div>
+
+        <div class="footer">
+            Notificación automática generada por el sistema de e-commerce.
+        </div>
+    </div>
+</body>
+</html>

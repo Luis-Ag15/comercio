@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inventario - {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .inv-hero {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);
+    padding: 1.5rem 0; position:relative; overflow:hidden;
+  }
+  .inv-hero::before {
+    content:''; position:absolute; top:-50px; right:-50px;
+    width:280px; height:280px; border-radius:50%;
+    background:rgba(16,185,129,0.15); filter:blur(60px);
+  }
+  .inv-hero h1 { color:#fff; font-weight:800; font-size:1.5rem; margin:0; }
+  .inv-hero p  { color:rgba(255,255,255,0.7); font-size:0.85rem; margin:0; }
+  .breadcrumb-link { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.85rem; }
+  .breadcrumb-link:hover { color:#fff; }
+
+  /* Summary pills */
+  .stat-pill {
+    display:inline-flex; align-items:center; gap:0.5rem;
+    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);
+    border-radius:50px; padding:0.4rem 1rem; color:#fff; font-size:0.85rem;
+    backdrop-filter:blur(10px);
+  }
+
+  /* Filter bar */
+  .filter-bar {
+    background:#fff; border-radius:16px; border:1px solid #e5e7eb;
+    padding:1rem 1.5rem; margin-bottom:1.5rem;
+    display:flex; align-items:center; flex-wrap:wrap; gap:0.75rem;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .filter-btn {
+    padding:0.4rem 1rem; border-radius:50px;
+    border:1.5px solid #e5e7eb; background:#fff;
+    color:#6b7280; font-size:0.82rem; font-weight:600;
+    text-decoration:none; transition:all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active { background:#3f51b5; border-color:#3f51b5; color:#fff; }
+  .filter-btn.active-out { background:#ef4444; border-color:#ef4444; color:#fff; }
+  .filter-btn.active-low { background:#f59e0b; border-color:#f59e0b; color:#fff; }
+  .filter-btn.active-ok  { background:#10b981; border-color:#10b981; color:#fff; }
+
+  .search-box {
+    border-radius:10px; border:1.5px solid #e5e7eb;
+    padding:0.5rem 1rem; font-size:0.88rem; min-width:220px;
+    transition:border-color 0.2s;
+  }
+  .search-box:focus { border-color:#3f51b5; outline:none; box-shadow:0 0 0 3px rgba(63,81,181,0.12); }
+
+  /* Table */
+  .inv-table-card {
+    background:#fff; border-radius:20px; border:1px solid #e5e7eb;
+    overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.05);
+  }
+  .inv-table thead th {
+    background:#e8eaf6; color:#283593;
+    font-size:0.78rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.5px; border-bottom:2px solid #c5cae9; padding:0.9rem 1rem;
+  }
+  .inv-table tbody td { padding:0.85rem 1rem; vertical-align:middle; font-size:0.88rem; }
+  .inv-table tbody tr { transition:background 0.15s; border-bottom:1px solid #f3f4f6; }
+  .inv-table tbody tr:hover { background:#e8eaf6; }
+  .inv-table tbody tr:last-child { border-bottom:none; }
+
+  /* Stock pill */
+  .stock-pill {
+    display:inline-flex; align-items:center; gap:0.35rem;
+    border-radius:50px; padding:0.3rem 0.8rem; font-size:0.82rem; font-weight:700;
+  }
+  .pill-ok  { background:#d1fae5; color:#065f46; }
+  .pill-low { background:#fef3c7; color:#92400e; }
+  .pill-out { background:#fee2e2; color:#b91c1c; }
+
+  /* Mini stock bar */
+  .mini-bar { height:6px; border-radius:6px; background:#e5e7eb; width:80px; overflow:hidden; display:inline-block; vertical-align:middle; margin-left:8px; }
+  .mini-fill { height:100%; border-radius:6px; }
+
+  /* Action buttons */
+  .btn-stock {
+    background:linear-gradient(135deg,#3f51b5,#5c6bc0);
+    color:#fff; border:none; border-radius:8px;
+    padding:0.35rem 0.85rem; font-size:0.8rem; font-weight:600;
+    text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;
+    transition:all 0.2s;
+  }
+  .btn-stock:hover { box-shadow:0 4px 12px rgba(63,81,181,0.4); color:#fff; transform:translateY(-1px); }
+
+  .product-thumb { width:38px; height:38px; object-fit:cover; border-radius:8px; }
+  .product-thumb-placeholder {
+    width:38px; height:38px; border-radius:8px;
+    background:linear-gradient(135deg,#e8eaf6,#c5cae9);
+    display:flex; align-items:center; justify-content:center;
+    color:#3f51b5; font-size:1rem;
+  }
+  .sku-chip {
+    background:#f3f4f6; color:#6b7280; border-radius:4px;
+    padding:0.1rem 0.4rem; font-size:0.72rem; font-family:monospace;
+  }
+  .empty-state { text-align:center; padding:4rem 2rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="inv-hero">
+  <div class="container-fluid px-4" style="position:relative;z-index:2">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <h1 class="mb-1"><i class="bi bi-boxes me-2" style="color:#6ee7b7"></i>Gestión de Inventario</h1>
+        <p>Actualiza el stock de tus productos de forma rápida.</p>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <span class="stat-pill"><i class="bi bi-box-seam"></i> {{ products|length }} producto{{ products|length|pluralize }}</span>
+        <a href="{% url 'products:product_create' %}" class="stat-pill" style="text-decoration:none">
+          <i class="bi bi-plus-lg"></i> Nuevo producto
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container-fluid px-4 py-4">
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <form method="get" class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap" id="filterForm">
+      <input type="text" name="q" class="search-box" placeholder="Buscar por nombre o SKU..."
+             value="{{ q }}" id="searchInput">
+      <input type="hidden" name="stock" value="{{ stock_filter }}" id="stockFilter">
+    </form>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="?stock=all{% if q %}&q={{ q }}{% endif %}"
+         class="filter-btn {% if stock_filter == 'all' %}active{% endif %}">
+        Todos
+      </a>
+      <a href="?stock=ok{% if q %}&q={{ q }}{% endif %}"
+         class="filter-btn {% if stock_filter == 'ok' %}active-ok active{% endif %}">
+        <i class="bi bi-check-circle me-1"></i>OK
+      </a>
+      <a href="?stock=low{% if q %}&q={{ q }}{% endif %}"
+         class="filter-btn {% if stock_filter == 'low' %}active-low active{% endif %}">
+        <i class="bi bi-exclamation-triangle me-1"></i>Stock bajo
+      </a>
+      <a href="?stock=out{% if q %}&q={{ q }}{% endif %}"
+         class="filter-btn {% if stock_filter == 'out' %}active-out active{% endif %}">
+        <i class="bi bi-x-circle me-1"></i>Sin stock
+      </a>
+    </div>
+  </div>
+
+  <!-- Table -->
+  {% if products %}
+  <div class="inv-table-card">
+    <table class="table inv-table mb-0">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>SKU</th>
+          <th>Categoría</th>
+          <th>Stock actual</th>
+          <th>Mín.</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              {% if p.main_image %}
+                <img src="{{ p.main_image.url }}" alt="{{ p.name }}" class="product-thumb">
+              {% else %}
+                <div class="product-thumb-placeholder"><i class="bi bi-box"></i></div>
+              {% endif %}
+              <div>
+                <div class="fw-semibold" style="color:#111827;line-height:1.2">{{ p.name|truncatechars:35 }}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="sku-chip">{{ p.sku }}</span></td>
+          <td><span class="text-muted" style="font-size:0.82rem">{{ p.category.name }}</span></td>
+          <td>
+            <strong style="font-size:1.05rem;color:{% if p.stock == 0 %}#ef4444{% elif p.stock <= p.min_stock %}#f59e0b{% else %}#111827{% endif %}">
+              {{ p.stock }}
+            </strong>
+            <span class="text-muted" style="font-size:0.75rem"> uds.</span>
+            <div class="mini-bar">
+              {% if p.stock == 0 %}
+                <div class="mini-fill" style="width:100%;background:#ef4444"></div>
+              {% elif p.stock <= p.min_stock %}
+                <div class="mini-fill" style="width:40%;background:#f59e0b"></div>
+              {% else %}
+                <div class="mini-fill" style="width:85%;background:#10b981"></div>
+              {% endif %}
+            </div>
+          </td>
+          <td><span class="text-muted" style="font-size:0.82rem">{{ p.min_stock }}</span></td>
+          <td>
+            {% if p.stock == 0 %}
+              <span class="stock-pill pill-out"><i class="bi bi-x-circle"></i> Sin stock</span>
+            {% elif p.stock <= p.min_stock %}
+              <span class="stock-pill pill-low"><i class="bi bi-exclamation-triangle"></i> Bajo</span>
+            {% else %}
+              <span class="stock-pill pill-ok"><i class="bi bi-check-circle"></i> OK</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-1">
+              <a href="{% url 'products:stock_update' p.slug %}" class="btn-stock" title="Actualizar existencias">
+                <i class="bi bi-box-seam"></i> Stock
+              </a>
+              <a href="{% url 'products:product_edit' p.slug %}" class="btn btn-sm btn-outline-secondary" title="Editar producto" style="border-radius:8px;padding:0.35rem 0.6rem;">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a href="{% url 'products:product_delete' p.slug %}" class="btn btn-sm btn-outline-danger" title="Eliminar producto" style="border-radius:8px;padding:0.35rem 0.6rem;">
+                <i class="bi bi-trash3"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div style="width:90px;height:90px;background:linear-gradient(135deg,#e8eaf6,#c5cae9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem;color:#3f51b5">
+      <i class="bi bi-boxes"></i>
+    </div>
+    <h4 class="fw-bold" style="color:#1a237e">No hay productos para mostrar</h4>
+    <p class="text-muted">Prueba cambiando el filtro o la búsqueda.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Búsqueda con debounce
+let timer;
+document.getElementById('searchInput')?.addEventListener('input', function() {
+  clearTimeout(timer);
+  timer = setTimeout(() => {
+    document.getElementById('filterForm').submit();
+  }, 400);
+});
+</script>
+{% endblock %}

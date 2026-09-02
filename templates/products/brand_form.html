@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - {{ site_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .form-hero {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);
+    padding: 1.5rem 0;
+    position: relative; overflow: hidden;
+  }
+  .form-hero::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:300px; height:300px; border-radius:50%;
+    background:rgba(16,185,129,0.15); filter:blur(60px);
+  }
+  .form-hero h1 { color:#fff; font-weight:800; font-size:1.5rem; margin:0; }
+  .form-hero p  { color:rgba(255,255,255,0.7); font-size:0.85rem; margin:0; }
+
+  .section-card {
+    background:#fff; border-radius:20px;
+    border:1px solid #e5e7eb; padding:2rem;
+    margin-bottom:1.5rem;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    transition:box-shadow 0.3s;
+  }
+  .section-card:hover { box-shadow:0 8px 30px rgba(16,185,129,0.08); }
+  .section-title {
+    font-size:0.9rem; font-weight:700; color:#047857;
+    text-transform:uppercase; letter-spacing:0.6px;
+    margin-bottom:1.2rem; display:flex; align-items:center; gap:0.5rem;
+  }
+  .form-control, .form-select {
+    border-radius:10px; border:1.5px solid #e5e7eb;
+    padding:0.6rem 0.9rem; font-size:0.9rem;
+    transition:border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color:#10b981; box-shadow:0 0 0 3px rgba(16,185,129,0.12);
+  }
+  .form-label { font-weight:600; font-size:0.83rem; color:#4b5563; margin-bottom:0.35rem; }
+
+  .img-upload-zone {
+    border:2px dashed #a7f3d0; border-radius:16px; padding:2rem;
+    text-align:center; cursor:pointer; transition:all 0.3s;
+    background:#f0fdf4; position:relative;
+  }
+  .img-upload-zone:hover { border-color:#10b981; background:#d1fae5; }
+  .img-upload-zone input[type="file"] {
+    position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%;
+  }
+  .img-upload-zone .icon { font-size:2.5rem; color:#10b981; margin-bottom:0.5rem; }
+  .img-preview { width:100%; max-height:200px; object-fit:contain; border-radius:10px; display:none; margin-top:0.75rem; }
+
+  .toggle-card {
+    border:1.5px solid #e5e7eb; border-radius:12px; padding:0.9rem 1.1rem;
+    display:flex; align-items:center; justify-content:space-between; transition:all 0.2s;
+  }
+  .toggle-card:hover { border-color:#10b981; background:#f0fdf4; }
+  .form-switch .form-check-input:checked { background-color:#10b981; border-color:#10b981; }
+
+  .btn-save {
+    background:linear-gradient(135deg, #10b981, #059669);
+    color:#fff; border:none; border-radius:12px;
+    padding:0.75rem 2rem; font-weight:700; font-size:1rem;
+    width:100%; transition:all 0.3s;
+  }
+  .btn-save:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(16,185,129,0.4); color:#fff; }
+  .btn-cancel {
+    border:1.5px solid #e5e7eb; background:#fff; color:#6b7280;
+    border-radius:12px; padding:0.65rem 1.5rem; font-weight:600; width:100%; transition:all 0.2s;
+  }
+  .btn-cancel:hover { border-color:#10b981; color:#10b981; }
+  .breadcrumb-link { color:rgba(255,255,255,0.55); text-decoration:none; font-size:0.85rem; }
+  .breadcrumb-link:hover { color:#fff; }
+  .errorlist { list-style:none; padding:0; margin:0.25rem 0 0; }
+  .errorlist li { color:#ef4444; font-size:0.8rem; }
+  .errorlist li::before { content:'⚠ '; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="form-hero">
+  <div class="container-fluid px-4" style="position:relative;z-index:2">
+    <div class="d-flex align-items-center gap-3">
+      <div class="rounded-circle d-flex align-items-center justify-content-center"
+           style="width:44px;height:44px;background:rgba(16,185,129,0.25);border:1px solid rgba(16,185,129,0.4)">
+        <i class="bi bi-{% if action == 'create' %}plus-lg{% else %}pencil-square{% endif %} text-white" style="font-size:1.2rem"></i>
+      </div>
+      <div>
+        <h1 class="mb-0">{{ page_title }}</h1>
+        <p class="mb-0">{% if action == 'create' %}Registra una nueva marca en el catálogo.{% else %}Actualiza la información de esta marca.{% endif %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container py-5">
+  <form method="post" enctype="multipart/form-data" id="brandForm" novalidate>
+    {% csrf_token %}
+    <div class="row g-4" style="max-width:900px;margin:0 auto">
+
+      <div class="col-lg-8">
+        <div class="section-card">
+          <div class="section-title"><i class="bi bi-award-fill"></i> Información de la Marca</div>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+            {{ form.name }}
+            {% if form.name.errors %}<ul class="errorlist">{% for e in form.name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            {{ form.description }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div style="position:sticky;top:1.5rem">
+
+          <!-- Acciones -->
+          <div class="section-card">
+            <div class="section-title"><i class="bi bi-send-fill"></i> Guardar</div>
+            <button type="submit" class="btn btn-save mb-3" id="submitBtn">
+              <i class="bi bi-{% if action == 'create' %}plus-circle{% else %}check-circle{% endif %} me-2"></i>
+              {% if action == 'create' %}Crear Marca{% else %}Guardar Cambios{% endif %}
+            </button>
+            <a href="{% url 'products:brand_list' %}" class="btn btn-cancel">
+              <i class="bi bi-x me-1"></i> Cancelar
+            </a>
+          </div>
+
+          <!-- Visibilidad -->
+          <div class="section-card">
+            <div class="section-title"><i class="bi bi-toggle-on"></i> Visibilidad</div>
+            <div class="toggle-card">
+              <label class="form-check-label fw-600 d-flex align-items-center gap-2" for="{{ form.is_active.id_for_label }}">
+                <i class="bi bi-eye" style="color:#6366f1"></i> Marca activa
+              </label>
+              <div class="form-check form-switch mb-0">
+                {{ form.is_active }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo -->
+          <div class="section-card">
+            <div class="section-title"><i class="bi bi-image-fill"></i> Logo</div>
+            <div class="img-upload-zone" id="uploadZone">
+              {{ form.logo }}
+              <div class="icon"><i class="bi bi-cloud-arrow-up"></i></div>
+              <p class="mb-0 text-muted" style="font-size:0.83rem">PNG, JPG, SVG · Máx. 2 MB</p>
+            </div>
+            <img id="logoPreview" class="img-preview" src="#" alt="Preview">
+            {% if action == 'edit' and brand.logo %}
+            <div class="mt-2 text-center">
+              <small class="text-muted">Logo actual:</small><br>
+              <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="rounded mt-1" style="max-height:80px;object-fit:contain">
+            </div>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const input   = document.getElementById('brand_logo_input');
+  const preview = document.getElementById('logoPreview');
+  const zone    = document.getElementById('uploadZone');
+  if (input) {
+    input.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+        reader.readAsDataURL(file);
+      }
+    });
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='#6366f1'; });
+    zone.addEventListener('dragleave', () => zone.style.borderColor='');
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.style.borderColor='';
+      if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event('change')); }
+    });
+  }
+  document.getElementById('brandForm').addEventListener('submit', function () {
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Guardando...';
+    btn.disabled = true;
+  });
+});
+</script>
+{% endblock %}

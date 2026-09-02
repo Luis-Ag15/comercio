@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ site_name }} — Desechables Esenciales & Menaje Minimalista{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     Minimalist Hero Section
+     ========================================================================== -->
+<section class="hero-tableware">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Left Narrative & Actions -->
+            <div class="col-lg-6">
+                <h1 class="hero-title">
+                    Desechables de diseño: simplicidad, resistencia y pureza de líneas
+                </h1>
+                
+                <p class="hero-desc">
+                    Vasos, platos, cubiertos y empaques de un solo uso concebidos con pureza de líneas, resistencia térmica y materiales conscientes. Soluciones sobrias para eventos, cafeterías de especialidad y catering.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mb-5">
+                    <a href="{% url 'products:product_list' %}" class="btn-minimal-black">
+                        <span>Ver Catálogo Completo</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="#categorias" class="btn-minimal-outline">
+                        <span>Líneas de Menaje</span>
+                    </a>
+                </div>
+
+                <!-- Functional Specs Strip -->
+                <div class="hero-specs-grid border-top pt-4">
+                    <div class="hero-spec-item">
+                        <div class="spec-value">Grado Alimenticio</div>
+                        <div class="spec-label">Materiales 100% seguros</div>
+                    </div>
+                    <div class="hero-spec-item">
+                        <div class="spec-value">Eco & Kraft</div>
+                        <div class="spec-label">Fibras biodegradables</div>
+                    </div>
+                    <div class="hero-spec-item">
+                        <div class="spec-value">Por Mayoreo</div>
+                        <div class="spec-label">Precios por caja y volumen</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Showcase Frame -->
+            <div class="col-lg-6">
+                <div class="hero-showcase-frame">
+                    <img src="/media/hero/hero.jpg" alt="Desechables de diseño: simplicidad, resistencia y pureza de líneas">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Value & Trust Bar
+     ========================================================================== -->
+<section class="trust-strip">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-6 col-lg-3">
+                <div class="trust-item-minimal">
+                    <h6>Calidad Certificada</h6>
+                    <p>Apto para alimentos fríos, calientes y delivery</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 border-start-md">
+                <div class="trust-item-minimal">
+                    <h6>Línea Sustentable</h6>
+                    <p>Opciones en cartón kraft, caña y fécula de maíz</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 border-start-md">
+                <div class="trust-item-minimal">
+                    <h6>Precios por Volumen</h6>
+                    <p>Atención a cafeterías, restaurantes y banquetes</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3 border-start-md">
+                <div class="trust-item-minimal">
+                    <h6>Entrega 24/48 Horas</h6>
+                    <p>Empaque protegido y envíos a todo el país</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Essential Lines / Categories Grid
+     ========================================================================== -->
+<section id="categorias" class="py-5 my-2">
+    <div class="container">
+        <div class="editorial-header">
+            <h2 class="editorial-title">Líneas de Menaje</h2>
+            <a href="{% url 'products:product_list' %}" class="editorial-link">
+                <span>Catálogo Completo</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            <!-- Vasos & Bebidas -->
+            <div class="col-sm-6 col-lg-3">
+                <a href="{% url 'products:product_list' %}?search=vaso" class="category-card-tableware">
+                    <div class="category-visual">
+                        <i class="bi bi-cup-hot fs-1"></i>
+                    </div>
+                    <div class="category-meta">
+                        <h3 class="category-name">Vasos & Bebidas</h3>
+                        <p class="category-desc">Vasos térmicos, transparentes, tapas y pajitas ecológicas</p>
+                        <span class="category-action">Explorar <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Platos & Bandejas -->
+            <div class="col-sm-6 col-lg-3">
+                <a href="{% url 'products:product_list' %}?search=plato" class="category-card-tableware">
+                    <div class="category-visual">
+                        <i class="bi bi-circle fs-1"></i>
+                    </div>
+                    <div class="category-meta">
+                        <h3 class="category-name">Platos & Bandejas</h3>
+                        <p class="category-desc">Fibra de caña, pulpa de celulosa y kraft para catering</p>
+                        <span class="category-action">Explorar <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Cubiertos & Utensilios -->
+            <div class="col-sm-6 col-lg-3">
+                <a href="{% url 'products:product_list' %}?search=cubierto" class="category-card-tableware">
+                    <div class="category-visual">
+                        <i class="fa-solid fa-utensils fs-2"></i>
+                    </div>
+                    <div class="category-meta">
+                        <h3 class="category-name">Cubiertos & Utensilios</h3>
+                        <p class="category-desc">Madera de abedul pulida, CPLA vegetal y kits higiénicos</p>
+                        <span class="category-action">Explorar <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Envases & Empaques -->
+            <div class="col-sm-6 col-lg-3">
+                <a href="{% url 'products:product_list' %}?search=envase" class="category-card-tableware">
+                    <div class="category-visual">
+                        <i class="bi bi-box-seam fs-1"></i>
+                    </div>
+                    <div class="category-meta">
+                        <h3 class="category-name">Envases & Empaques</h3>
+                        <p class="category-desc">Cajas herméticas, bowls para ensaladas y bolsas de papel</p>
+                        <span class="category-action">Explorar <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Featured Selection Section
+     ========================================================================== -->
+<section id="productos" class="py-5 bg-white border-top">
+    <div class="container">
+        <div class="editorial-header">
+            <h2 class="editorial-title">Artículos Seleccionados</h2>
+            <a href="{% url 'products:product_list' %}" class="editorial-link">
+                <span>Ver Todos los Artículos</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card-editorial">
+                    <!-- Badges -->
+                    {% if product.discount_price %}
+                    <span class="product-tag-minimal product-tag-sale">
+                        -{{ product.get_discount_percentage }}%
+                    </span>
+                    {% elif product.is_new %}
+                    <span class="product-tag-minimal">
+                        Nuevo
+                    </span>
+                    {% endif %}
+
+                    <!-- Photo Frame -->
+                    <div class="product-frame-editorial">
+                        <a href="{% url 'products:product_detail' product.slug %}" class="w-100 h-100 d-block">
+                            {% if product.main_image %}
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+                            {% else %}
+                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-muted small">
+                                Sin imagen
+                            </div>
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="product-info-editorial">
+                        <span class="product-category-minimal">{{ product.category.name }}</span>
+                        <h3 class="product-title-editorial">
+                            <a href="{% url 'products:product_detail' product.slug %}">
+                                {{ product.name }}
+                            </a>
+                        </h3>
+
+                        <div class="product-price-editorial">
+                            <span>${{ product.get_price }}</span>
+                            {% if product.discount_price %}
+                            <span class="product-price-old-minimal">${{ product.price }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="product-actions-editorial">
+                            <a href="{% url 'products:product_detail' product.slug %}" class="btn-editorial-detail">
+                                Ficha
+                            </a>
+                            <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn-editorial-add" {% if not product.is_in_stock %}disabled title="Agotado"{% else %}title="Añadir a la orden"{% endif %}>
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 py-5 text-center">
+                <p class="text-muted">No hay artículos seleccionados en inventario actualmente.</p>
+                <a href="{% url 'products:product_list' %}" class="btn-minimal-black btn-minimal-sm mt-2">Ir al Catálogo</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Materials & Purpose Manifesto
+     ========================================================================== -->
+<section class="statement-section">
+    <div class="container">
+        <blockquote class="statement-quote">
+            &ldquo;El menaje de un solo uso no tiene por qué ser descuidado. La sobriedad en la forma, la textura honesta del papel y el compromiso con la compostabilidad definen un estándar superior.&rdquo;
+        </blockquote>
+        
+        <div class="statement-code-box">
+            <span>PEDIDO MAYORISTA &bull; ENVÍO PREFERENCIAL EN VOLUMEN</span>
+        </div>
+        
+        <div>
+            <a href="{% url 'core:contact' %}" class="editorial-link">
+                <span>Cotizar Suministro para Negocios</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Latest Catalog Additions
+     ========================================================================== -->
+<section class="py-5 bg-light-subtle">
+    <div class="container">
+        <div class="editorial-header">
+            <h2 class="editorial-title">Novedades en Inventario</h2>
+            <a href="{% url 'products:product_list' %}?sort=newest" class="editorial-link">
+                <span>Ver Todas las Novedades</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% for product in latest_products %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product-card-editorial">
+                    <!-- Photo Frame -->
+                    <div class="product-frame-editorial">
+                        <a href="{% url 'products:product_detail' product.slug %}" class="w-100 h-100 d-block">
+                            {% if product.main_image %}
+                            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+                            {% else %}
+                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-muted small">
+                                Sin imagen
+                            </div>
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="product-info-editorial">
+                        <span class="product-category-minimal">{{ product.category.name }}</span>
+                        <h3 class="product-title-editorial">
+                            <a href="{% url 'products:product_detail' product.slug %}">
+                                {{ product.name }}
+                            </a>
+                        </h3>
+
+                        <div class="product-price-editorial">
+                            <span>${{ product.get_price }}</span>
+                            {% if product.discount_price %}
+                            <span class="product-price-old-minimal">${{ product.price }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="product-actions-editorial">
+                            <a href="{% url 'products:product_detail' product.slug %}" class="btn-editorial-detail">
+                                Ficha
+                            </a>
+                            <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn-editorial-add" {% if not product.is_in_stock %}disabled title="Agotado"{% else %}title="Añadir a la orden"{% endif %}>
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 py-5 text-center">
+                <p class="text-muted">Inventario actualizado regularmente.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     Wholesale & Newsletter Section
+     ========================================================================== -->
+<section class="newsletter-minimal">
+    <div class="container text-center">
+        <h2 class="h3 text-uppercase fw-bold mb-2">Catálogo Mayorista y Novedades</h2>
+        <p class="text-muted mx-auto" style="max-width: 520px; font-size: 0.95rem;">
+            Recibe fichas técnicas de materiales, tablas de precios escalonadas para cafeterías y avisos de nuevos formatos compostables. Sin saturación.
+        </p>
+        
+        <form class="newsletter-form-minimal" onsubmit="event.preventDefault(); alert('Solicitud registrada. Nos pondremos en contacto.');">
+            <input type="email" class="newsletter-input-minimal" placeholder="Tu correo electrónico profesional..." required>
+            <button type="submit" class="newsletter-btn-minimal">
+                <span>Solicitar</span>
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

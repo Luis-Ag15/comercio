@@ -1,0 +1,26 @@
+¡NUEVO PEDIDO RECIBIDO! - Pedido #{{ order.id }}
+Fecha: {{ order.created_at|date:"d/m/Y H:i" }}
+Total: ${{ order.total }}
+
+DETALLES DEL CLIENTE:
+- Nombre: {{ order.get_full_name }}
+- Email: {{ order.email }}
+- Teléfono: {{ order.phone }}
+- Método de Pago: {{ order.get_payment_method_display }}
+
+DIRECCIÓN DE ENTREGA:
+{{ order.address }}
+{{ order.city }}, {{ order.state }} (CP: {{ order.postal_code }})
+{{ order.country }}
+{% if order.order_notes %}
+Notas del cliente: {{ order.order_notes }}
+{% endif %}
+
+ARTÍCULOS:
+{% for item in order.items.all %}
+- {{ item.quantity }}x {{ item.product_name }} - ${{ item.price }} c/u (Subtotal: ${{ item.get_cost }})
+{% endfor %}
+
+TOTAL: ${{ order.total }}
+
+Panel de administración: {{ admin_url }}

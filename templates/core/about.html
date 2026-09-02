@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="about-shell">
+    <div class="container">
+        <!-- Header minimalista -->
+        <div class="about-header mb-5 pb-3 border-bottom text-center">
+            <h1 class="about-header-title">Sobre Nosotros</h1>
+            <p class="about-header-subtitle mb-0">Menaje esencial, pureza de líneas y consumibles de mesa concebidos con estética, resistencia y propósito.</p>
+        </div>
+
+        <!-- Manifiesto de Marca -->
+        <div class="about-manifesto-card mb-5">
+            <div class="text-center max-w-75 mx-auto">
+                <div class="about-manifesto-badge">
+                    <i class="bi bi-compass"></i> Filosofía & Propósito
+                </div>
+                <h2 class="h3 fw-bold text-uppercase tracking-tight text-dark mb-3">
+                    Redefiniendo el estándar en consumibles gastronómicos y menaje desechable
+                </h2>
+                <p class="text-muted mb-4" style="line-height: 1.8; font-size: 1.02rem;">
+                    Frente al empaque industrial genérico y saturado de ruido visual, nacemos para ofrecer una alternativa donde la forma, la textura del material (fibras biodegradables, cartón kraft virgen y polímeros limpios de alta resistencia térmica) y la practicidad son el estándar.
+                </p>
+                <p class="text-muted mb-0" style="line-height: 1.8; font-size: 1.02rem;">
+                    Acompañamos a cafeterías de especialidad, restaurantes, barras gastronómicas y organizadores de eventos contemporáneos que buscan que cada pieza sobre la mesa comunique orden, pureza y sofisticación.
+                </p>
+            </div>
+
+            <!-- Datos Clave / Métricas -->
+            <div class="about-stats-grid">
+                <div class="about-stat-item">
+                    <div class="about-stat-number">100%</div>
+                    <div class="about-stat-label">Grado Alimenticio Seguro</div>
+                </div>
+                <div class="about-stat-item">
+                    <div class="about-stat-number">Eco & Kraft</div>
+                    <div class="about-stat-label">Fibras Biodegradables</div>
+                </div>
+                <div class="about-stat-item">
+                    <div class="about-stat-number">B2B & Mayoreo</div>
+                    <div class="about-stat-label">Desde paquetes hasta tarimas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trío de Pilares de Valor -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="about-pillar-card">
+                    <div class="about-pillar-icon">
+                        <i class="bi bi-layers"></i>
+                    </div>
+                    <div class="contact-info-tag">Calidad Estructural</div>
+                    <h3 class="h6 fw-bold text-uppercase tracking-tight mb-2">Resistencia & Textura</h3>
+                    <p class="text-muted small mb-0" style="line-height: 1.6;">
+                        Ensayamos cada línea de vasos, platos y cubiertos para garantizar rigidez térmica efectiva, calces herméticos y un tacto firme sin deformaciones ni químicos agresivos.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-pillar-card">
+                    <div class="about-pillar-icon">
+                        <i class="bi bi-eye"></i>
+                    </div>
+                    <div class="contact-info-tag">Curaduría Visual</div>
+                    <h3 class="h6 fw-bold text-uppercase tracking-tight mb-2">Cero Ruido Visual</h3>
+                    <p class="text-muted small mb-0" style="line-height: 1.6;">
+                        Prescindimos de estampados invasivos y colores estridentes. El protagonista en todo momento debe ser tu café, tu platillo y la experiencia sensorial de tus comensales.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="about-pillar-card">
+                    <div class="about-pillar-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="contact-info-tag">Respaldo Operativo</div>
+                    <h3 class="h6 fw-bold text-uppercase tracking-tight mb-2">Suministro Confiable</h3>
+                    <p class="text-muted small mb-0" style="line-height: 1.6;">
+                        Inventario visible en tiempo real, opciones de compra por volumen y logística ágil para que tu barra, dark kitchen o evento nunca detenga su operación.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Dividida: Hostelería & Sostenibilidad -->
+        <div class="row g-4 mb-5">
+            <!-- Bloque Hostelería -->
+            <div class="col-lg-6">
+                <div class="about-manifesto-card h-100 p-4 p-md-5 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="profile-section-divider mt-0 mb-3">
+                            <i class="bi bi-cup-hot"></i> Para Cafeterías y Restaurantes
+                        </div>
+                        <h3 class="h5 fw-bold text-dark text-uppercase tracking-tight mb-3">
+                            El empaque habla antes del primer bocado o sorbo
+                        </h3>
+                        <p class="text-muted small mb-4" style="line-height: 1.7;">
+                            Entendemos el esfuerzo y la técnica que involucra extraer un espresso perfecto o preparar un servicio de catering impecable. Nuestras piezas de menaje respetan el perfil térmico y la presentación de tus recetas.
+                        </p>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center gap-2 mb-2 text-muted small">
+                                <i class="bi bi-check2 text-dark fw-bold"></i>
+                                <span>Tapas con sellado de ajuste preciso antifugas</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2 text-muted small">
+                                <i class="bi bi-check2 text-dark fw-bold"></i>
+                                <span>Gramajes de cartón rígido que aíslan el calor eficazmente</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 text-muted small">
+                                <i class="bi bi-check2 text-dark fw-bold"></i>
+                                <span>Medidas estándar compatibles con la industria gastronómica</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloque Sostenibilidad -->
+            <div class="col-lg-6">
+                <div class="contact-sidebar-card h-100 p-4 p-md-5 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="contact-b2b-badge">
+                            <i class="bi bi-recycle"></i> Sostenibilidad
+                        </div>
+                        <h3 class="h5 fw-bold text-white text-uppercase tracking-tight mb-3">
+                            Materiales Conscientes & Trazables
+                        </h3>
+                        <p class="text-white-50 small mb-4" style="line-height: 1.7;">
+                            Impulsamos la transición hacia insumos de menor huella ambiental, priorizando fibras vegetales biodegradables como bagazo de caña, papel kraft no blanqueado y madera de abedul de origen responsable.
+                        </p>
+                        <ul class="contact-feature-list my-0">
+                            <li class="contact-feature-item">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Líneas compostables que se reintegran al ciclo orgánico.</span>
+                            </li>
+                            <li class="contact-feature-item">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Empaques de transportación optimizados y 100% reciclables.</span>
+                            </li>
+                            <li class="contact-feature-item">
+                                <i class="bi bi-check2-circle"></i>
+                                <span>Fichas técnicas de materiales a disposición de tu negocio.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner de Acción Final -->
+        <div class="about-cta-strip text-center p-5">
+            <h2 class="h4 fw-bold text-uppercase tracking-tight text-dark mb-2">
+                ¿Listo para transformar la experiencia de tu mesa?
+            </h2>
+            <p class="text-muted small mb-4 mx-auto" style="max-width: 540px; line-height: 1.6;">
+                Descubre nuestra curaduría completa de vasos, platos, cubiertos y empaques, o ponte en contacto con nosotros para cotizaciones mayoristas personalizadas.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="{% url 'products:product_list' %}" class="btn-minimal-black">
+                    <span>Ver Catálogo Completo</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="{% url 'core:contact' %}" class="btn-minimal-outline">
+                    <span>Contactar Asesor</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
