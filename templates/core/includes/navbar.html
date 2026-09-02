@@ -1,11 +1,28 @@
+<!-- ============================================================
+     Navbar + Mobile Side Drawer
+     ============================================================ -->
 <nav class="navbar navbar-expand-lg navbar-minimal">
     <div class="container">
         <a class="navbar-brand-minimal" href="{% url 'core:home' %}">
             {{ site_name }}
         </a>
-        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <i class="bi bi-list fs-3 text-dark"></i>
-        </button>
+
+        <!-- Mobile right controls: cart + hamburger -->
+        <div class="d-flex align-items-center gap-2 d-lg-none">
+            <a href="{% url 'cart:cart_detail' %}" class="cart-icon-btn-minimal" title="Bolsa de compras">
+                <i class="bi bi-bag"></i>
+                {% if cart_items_count > 0 %}
+                <span class="cart-badge-minimal">{{ cart_items_count }}</span>
+                {% endif %}
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileDrawer">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+
+        <!-- Desktop nav (unchanged behaviour) -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto ms-lg-4">
                 <li class="nav-item">
@@ -21,22 +38,20 @@
                     <a class="nav-link-minimal" href="{% url 'core:contact' %}">Contacto</a>
                 </li>
             </ul>
-            
+
             <!-- Search -->
             <form class="nav-search-minimal me-3" action="{% url 'products:product_list' %}" method="get">
                 <input class="nav-search-input-minimal" type="search" name="search" placeholder="Buscar vasos, platos, empaques..." value="{{ request.GET.search }}">
             </form>
-            
-            <!-- Cart -->
+
+            <!-- Cart (desktop) -->
             <a href="{% url 'cart:cart_detail' %}" class="cart-icon-btn-minimal me-3" title="Bolsa de compras">
                 <i class="bi bi-bag"></i>
                 {% if cart_items_count > 0 %}
-                <span class="cart-badge-minimal">
-                    {{ cart_items_count }}
-                </span>
+                <span class="cart-badge-minimal">{{ cart_items_count }}</span>
                 {% endif %}
             </a>
-            
+
             <!-- User -->
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
@@ -45,50 +60,186 @@
                         <i class="bi bi-person me-1"></i> {{ user.first_name|default:user.username }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end border rounded-0 shadow-sm">
-                        <li><a class="dropdown-item py-2 small" href="{% url 'registration:profile' %}">
-                            Mi Perfil
-                        </a></li>
-                        <li><a class="dropdown-item py-2 small" href="{% url 'orders:order_list' %}">
-                            Mis Órdenes
-                        </a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'registration:profile' %}">Mi Perfil</a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'orders:order_list' %}">Mis Órdenes</a></li>
                         {% if user.is_staff or user.is_superuser %}
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item py-2 small text-muted" href="{% url 'orders:panel_order_list' %}">
-                            Panel de Pedidos
-                        </a></li>
-                        <li><a class="dropdown-item py-2 small" href="{% url 'products:product_create' %}">
-                            Subir Producto
-                        </a></li>
-                        <li><a class="dropdown-item py-2 small" href="{% url 'products:stock_manage' %}">
-                            Inventario
-                        </a></li>
-                        <li><a class="dropdown-item py-2 small" href="{% url 'products:category_list' %}">
-                            Categorías
-                        </a></li>
-                        <li><a class="dropdown-item py-2 small" href="{% url 'products:brand_list' %}">
-                            Marcas
-                        </a></li>
+                        <li><a class="dropdown-item py-2 small text-muted" href="{% url 'orders:panel_order_list' %}">Panel de Pedidos</a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:product_create' %}">Subir Producto</a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:stock_manage' %}">Inventario</a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:category_list' %}">Categorías</a></li>
+                        <li><a class="dropdown-item py-2 small" href="{% url 'products:brand_list' %}">Marcas</a></li>
                         {% endif %}
-
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item py-2 small text-danger" href="{% url 'registration:logout' %}">
-                            Cerrar Sesión
-                        </a></li>
+                        <li><a class="dropdown-item py-2 small text-danger" href="{% url 'registration:logout' %}">Cerrar Sesión</a></li>
                     </ul>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link-minimal" href="{% url 'registration:login' %}">
-                        Ingresar
-                    </a>
+                    <a class="nav-link-minimal" href="{% url 'registration:login' %}">Ingresar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link-minimal" href="{% url 'registration:register' %}">
-                        Registrarse
-                    </a>
+                    <a class="nav-link-minimal" href="{% url 'registration:register' %}">Registrarse</a>
                 </li>
                 {% endif %}
             </ul>
-        </div>
-    </div>
+        </div><!-- /.collapse -->
+    </div><!-- /.container -->
 </nav>
+
+<!-- ============================================================
+     MOBILE SIDE DRAWER
+     ============================================================ -->
+<div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+
+<aside class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+
+    <!-- Drawer header -->
+    <div class="drawer-header">
+        <span class="drawer-brand">{{ site_name }}</span>
+        <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Cerrar menú">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <!-- Search -->
+    <div class="drawer-search-wrap">
+        <form action="{% url 'products:product_list' %}" method="get">
+            <div class="drawer-search-inner">
+                <i class="bi bi-search drawer-search-icon"></i>
+                <input type="search" name="search" class="drawer-search-input"
+                       placeholder="Buscar productos..." value="{{ request.GET.search }}">
+            </div>
+        </form>
+    </div>
+
+    <!-- Main nav links -->
+    <nav class="drawer-nav">
+        <p class="drawer-section-label">Explorar</p>
+
+        <a href="{% url 'core:home' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-house"></i></span>
+            <span>Inicio</span>
+        </a>
+        <a href="{% url 'products:product_list' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-grid"></i></span>
+            <span>Catálogo</span>
+        </a>
+        <a href="{% url 'cart:cart_detail' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-bag"></i></span>
+            <span>Mi Bolsa
+                {% if cart_items_count > 0 %}
+                <span class="drawer-badge">{{ cart_items_count }}</span>
+                {% endif %}
+            </span>
+        </a>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'orders:order_list' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-receipt"></i></span>
+            <span>Mis Órdenes</span>
+        </a>
+        <a href="{% url 'registration:profile' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-person"></i></span>
+            <span>Mi Perfil</span>
+        </a>
+        {% endif %}
+
+        <a href="{% url 'core:about' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-info-circle"></i></span>
+            <span>Sobre Nosotros</span>
+        </a>
+        <a href="{% url 'core:contact' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-envelope"></i></span>
+            <span>Contacto</span>
+        </a>
+
+        {% if user.is_staff or user.is_superuser %}
+        <div class="drawer-divider"></div>
+        <p class="drawer-section-label">Administración</p>
+        <a href="{% url 'orders:panel_order_list' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-clipboard-check"></i></span>
+            <span>Panel de Pedidos</span>
+        </a>
+        <a href="{% url 'products:product_create' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-plus-circle"></i></span>
+            <span>Subir Producto</span>
+        </a>
+        <a href="{% url 'products:stock_manage' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-boxes"></i></span>
+            <span>Inventario</span>
+        </a>
+        <a href="{% url 'products:category_list' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-tags"></i></span>
+            <span>Categorías</span>
+        </a>
+        <a href="{% url 'products:brand_list' %}" class="drawer-link">
+            <span class="drawer-link-icon"><i class="bi bi-bookmark"></i></span>
+            <span>Marcas</span>
+        </a>
+        {% endif %}
+    </nav>
+
+    <!-- Drawer footer: auth actions -->
+    <div class="drawer-footer">
+        {% if user.is_authenticated %}
+        <span class="drawer-user-greeting">
+            <i class="bi bi-person-check me-1"></i>
+            Hola, {{ user.first_name|default:user.username }}
+        </span>
+        <a href="{% url 'registration:logout' %}" class="drawer-logout-btn">
+            <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
+        </a>
+        {% else %}
+        <a href="{% url 'registration:login' %}" class="drawer-auth-btn drawer-auth-primary">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Ingresar
+        </a>
+        <a href="{% url 'registration:register' %}" class="drawer-auth-btn drawer-auth-outline">
+            Registrarse
+        </a>
+        {% endif %}
+    </div>
+</aside>
+
+<!-- Drawer JS (inline, no extra file needed) -->
+<script>
+(function () {
+    const btn      = document.getElementById('mobileMenuBtn');
+    const drawer   = document.getElementById('mobileDrawer');
+    const overlay  = document.getElementById('drawerOverlay');
+    const closeBtn = document.getElementById('drawerCloseBtn');
+    const body     = document.body;
+
+    function openDrawer() {
+        drawer.classList.add('is-open');
+        overlay.classList.add('is-visible');
+        body.classList.add('drawer-open');
+        btn.setAttribute('aria-expanded', 'true');
+        closeBtn.focus();
+    }
+
+    function closeDrawer() {
+        drawer.classList.remove('is-open');
+        overlay.classList.remove('is-visible');
+        body.classList.remove('drawer-open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.focus();
+    }
+
+    btn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+            closeDrawer();
+        }
+    });
+
+    // Close drawer when navigating (link click inside drawer)
+    drawer.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeDrawer);
+    });
+})();
+</script>
